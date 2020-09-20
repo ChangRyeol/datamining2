@@ -20,7 +20,7 @@
 # + [markdown] id="xFn0TpVEWk8f" colab_type="text"
 # **Chapter 1 – The Machine Learning landscape**
 #
-# _This is the code used to generate some of the figures in chapter 1._
+# _This is the code used to generate some of the figures in chapter 1_
 
 # + [markdown] id="hCt0_0dfWk8h" colab_type="text"
 # <table align="left">
@@ -28,6 +28,10 @@
 #     <a target="_blank" href="https://colab.research.google.com/github/ageron/handson-ml2/blob/master/01_the_machine_learning_landscape.ipynb"><img src="https://www.tensorflow.org/images/colab_logo_32px.png" />Run in Google Colab</a>
 #   </td>
 # </table>
+
+# + id="Xn2ibZPTmLwj" colab_type="code" colab={}
+
+
 
 # + [markdown] id="yTLA_Pchi051" colab_type="text"
 # #goole drive mounting
@@ -46,12 +50,20 @@ drive.mount(ROOT)           # we mount the google drive at /content/drive
 # + id="wfR8Yb_GjDqU" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 36} executionInfo={"status": "ok", "timestamp": 1600605989309, "user_tz": -540, "elapsed": 710, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="08b381bf-4dd1-4f8a-b0ee-b5515eed217c"
 # %pwd 
 
-# + id="UG1ZRrvwjUxh" colab_type="code" colab={}
+# + id="UG1ZRrvwjUxh" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 36} executionInfo={"status": "ok", "timestamp": 1600606000730, "user_tz": -540, "elapsed": 678, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="9c9d877b-c199-4cae-c4f3-f83876f23d7c"
 # %cd 'drive/My Drive/Colab Notebooks/datamining2/class' 
 
-# + id="USRqa1HwjUun" colab_type="code" colab={}
+# + id="USRqa1HwjUun" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 467} executionInfo={"status": "ok", "timestamp": 1600606028214, "user_tz": -540, "elapsed": 5803, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="3143b220-de8e-458e-b995-d916d6aa283d"
+pip install jupytext #jupytext 설치 
+
+# + id="0LoJlFLvjcBp" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 92} executionInfo={"status": "ok", "timestamp": 1600606043882, "user_tz": -540, "elapsed": 2024, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="61f2da8f-fbce-4d51-dc68-b16a7df66156"
+## Pair a notebook to a light script
+# !jupytext --set-formats ipynb,py:light 01_the_machine_learning_landscape.ipynb  
 
 
+# + id="kiy06FAsjhI8" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 92} executionInfo={"status": "ok", "timestamp": 1600606063786, "user_tz": -540, "elapsed": 1399, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="cf4760ea-2bdb-4d67-a060-2fb55e81ea6f"
+# Sync the two representations
+# !jupytext --sync 01_the_machine_learning_landscape.ipynb
 
 # + [markdown] id="xchtv_aYWk8i" colab_type="text"
 # # Code example 1-1
