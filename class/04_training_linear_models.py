@@ -41,12 +41,12 @@ drive.mount(ROOT)           # we mount the google drive at /content/drive
 # + id="E6sbl6Qb4AhX" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 467} executionInfo={"status": "ok", "timestamp": 1600661765674, "user_tz": -540, "elapsed": 6505, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="5bd9bb33-62a3-456a-b0a7-54d1e0b1b0b8"
 pip install jupytext #jupytext 설치 
 
-# + id="2E60tHvQ4EeZ" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 92} executionInfo={"status": "ok", "timestamp": 1600662069189, "user_tz": -540, "elapsed": 2236, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="89f97b05-5c72-4f7e-901f-5c999ce8228b"
+# + id="2E60tHvQ4EeZ" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 89} executionInfo={"status": "ok", "timestamp": 1600663963439, "user_tz": -540, "elapsed": 1865, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="a7aaf3cc-a00f-4881-f935-33bdf3526d50"
 ## Pair a notebook to a light script
 # !jupytext --set-formats ipynb,py:light 04_training_linear_models.ipynb  
 
 
-# + id="HrV7zTda5Umb" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 92} executionInfo={"status": "ok", "timestamp": 1600662106975, "user_tz": -540, "elapsed": 1573, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="db519f36-be75-49b5-eb18-a94f788539a5"
+# + id="HrV7zTda5Umb" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 89} executionInfo={"status": "ok", "timestamp": 1600663966555, "user_tz": -540, "elapsed": 1416, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="d880d877-7b57-4edf-8568-03ed34d76ada"
 # Sync the two representations
 # !jupytext --sync 04_training_linear_models.ipynb
 
@@ -56,7 +56,7 @@ pip install jupytext #jupytext 설치
 # + [markdown] id="Z0xlfPfc3T2i" colab_type="text"
 # First, let's import a few common modules, ensure MatplotLib plots figures inline and prepare a function to save the figures. We also check that Python 3.5 or later is installed (although Python 2.x may work, it is deprecated so we strongly recommend you use Python 3 instead), as well as Scikit-Learn ≥0.20.
 
-# + id="BjNlbNfW3T2j" colab_type="code" colab={}
+# + id="BjNlbNfW3T2j" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600664095055, "user_tz": -540, "elapsed": 979, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 # Python ≥3.5 is required
 import sys
 assert sys.version_info >= (3, 5)
@@ -86,6 +86,8 @@ CHAPTER_ID = "training_linear_models"
 IMAGES_PATH = os.path.join(PROJECT_ROOT_DIR, "images", CHAPTER_ID)
 os.makedirs(IMAGES_PATH, exist_ok=True)
 
+#plot save 함수. 
+
 def save_fig(fig_id, tight_layout=True, fig_extension="png", resolution=300):
     path = os.path.join(IMAGES_PATH, fig_id + "." + fig_extension)
     print("Saving figure", fig_id)
@@ -100,13 +102,20 @@ warnings.filterwarnings(action="ignore", message="^internal gelsd")
 # + [markdown] id="BYGC3ogX3T2o" colab_type="text"
 # # Linear regression using the Normal Equation
 
-# + id="TlH5f1qH3T2p" colab_type="code" colab={}
+# + id="TlH5f1qH3T2p" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600664220233, "user_tz": -540, "elapsed": 659, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 import numpy as np
 
 X = 2 * np.random.rand(100, 1)
 y = 4 + 3 * X + np.random.randn(100, 1)
 
-# + id="SmBQ3F-W3T2t" colab_type="code" colab={} outputId="e8fb1122-622e-4dce-9ec9-fb1a1e7611cc"
+# + id="Jd5BamrwBfHS" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 35} executionInfo={"status": "ok", "timestamp": 1600664243563, "user_tz": -540, "elapsed": 696, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="7258414a-e112-4adb-f530-0849a897b9a3"
+X.shape  # X에 난수 추출하여 2 곱함
+
+# + id="RvCWDuJHBmPU" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 107} executionInfo={"status": "ok", "timestamp": 1600664280708, "user_tz": -540, "elapsed": 665, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="c8085f96-ea64-4580-dfa7-4d45ca2063d4"
+X[:5]
+
+# + id="SmBQ3F-W3T2t" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 315} executionInfo={"status": "ok", "timestamp": 1600664292094, "user_tz": -540, "elapsed": 1421, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="8b7c1ce0-e23b-4544-a21e-2f7d8752084e"
+#X와 y PLOT  
 plt.plot(X, y, "b.")
 plt.xlabel("$x_1$", fontsize=18)
 plt.ylabel("$y$", rotation=0, fontsize=18)
@@ -114,20 +123,23 @@ plt.axis([0, 2, 0, 15])
 save_fig("generated_data_plot")
 plt.show()
 
-# + id="Uy4FItMz3T2z" colab_type="code" colab={}
+# + id="Uy4FItMz3T2z" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600664319754, "user_tz": -540, "elapsed": 857, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+#파라미터 찾기 
 X_b = np.c_[np.ones((100, 1)), X]  # add x0 = 1 to each instance
 theta_best = np.linalg.inv(X_b.T.dot(X_b)).dot(X_b.T).dot(y)
 
 # + id="SCwf46Px3T23" colab_type="code" colab={} outputId="d2b1aac0-dbbd-43c8-a86b-b6df42de4d16"
 theta_best
 
-# + id="qaafXLAE3T29" colab_type="code" colab={} outputId="52855f2d-621b-47af-c536-0402a713059f"
+# + id="qaafXLAE3T29" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 53} executionInfo={"status": "ok", "timestamp": 1600664328282, "user_tz": -540, "elapsed": 742, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="75ec1b03-e122-4652-a7e1-41111b921ad8"
+#prediction. 
 X_new = np.array([[0], [2]])
 X_new_b = np.c_[np.ones((2, 1)), X_new]  # add x0 = 1 to each instance
 y_predict = X_new_b.dot(theta_best)
 y_predict
 
-# + id="_MPXEdx63T3E" colab_type="code" colab={} outputId="676aad80-40a6-4ced-8cb1-c8e26d456946"
+# + id="_MPXEdx63T3E" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 268} executionInfo={"status": "ok", "timestamp": 1600664396097, "user_tz": -540, "elapsed": 730, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="05d16500-891c-4eb6-fa1c-66edd4d79022"
+#plot 
 plt.plot(X_new, y_predict, "r-")
 plt.plot(X, y, "b.")
 plt.axis([0, 2, 0, 15])
@@ -136,7 +148,7 @@ plt.show()
 # + [markdown] id="I1AqoeP-3T3M" colab_type="text"
 # The figure in the book actually corresponds to the following code, with a legend and axis labels:
 
-# + id="BtnAIoij3T3O" colab_type="code" colab={} outputId="fa468c41-0d27-4149-8e67-b679569dec3e"
+# + id="BtnAIoij3T3O" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 315} executionInfo={"status": "ok", "timestamp": 1600664402341, "user_tz": -540, "elapsed": 1337, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="baf418e4-86c7-449d-d7f8-72c27aff6f39"
 plt.plot(X_new, y_predict, "r-", linewidth=2, label="Predictions")
 plt.plot(X, y, "b.")
 plt.xlabel("$x_1$", fontsize=18)
@@ -146,33 +158,36 @@ plt.axis([0, 2, 0, 15])
 save_fig("linear_model_predictions_plot")
 plt.show()
 
-# + id="cqQSdQDK3T3X" colab_type="code" colab={} outputId="9a141c87-3749-48b8-910a-96c6084ac75f"
+# + id="cqQSdQDK3T3X" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 35} executionInfo={"status": "ok", "timestamp": 1600664420232, "user_tz": -540, "elapsed": 850, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="91738efe-bf3a-4138-afa9-50b52ad64425"
+#sklearn 으로 간단히 선형회귀 사용가능. 
 from sklearn.linear_model import LinearRegression
 
 lin_reg = LinearRegression()
 lin_reg.fit(X, y)
 lin_reg.intercept_, lin_reg.coef_
 
-# + id="tO1E-Okv3T3e" colab_type="code" colab={} outputId="c3111ed6-237d-4f43-f293-249faa255ffe"
+# + id="tO1E-Okv3T3e" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 53} executionInfo={"status": "ok", "timestamp": 1600664496059, "user_tz": -540, "elapsed": 938, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="7e16ab3e-a3ef-4889-8673-9aa4e7605a9b"
 lin_reg.predict(X_new)
 
 # + [markdown] id="Fdu_yds53T3m" colab_type="text"
 # The `LinearRegression` class is based on the `scipy.linalg.lstsq()` function (the name stands for "least squares"), which you could call directly:
 
-# + id="I4unqVwK3T3n" colab_type="code" colab={} outputId="8aa90abd-918b-4f20-f1b0-0feadcddb7de"
+# + id="I4unqVwK3T3n" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 53} executionInfo={"status": "ok", "timestamp": 1600664499481, "user_tz": -540, "elapsed": 785, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="3bbb31b7-7709-4593-abe5-951abb6ad4f3"
 theta_best_svd, residuals, rank, s = np.linalg.lstsq(X_b, y, rcond=1e-6)
 theta_best_svd
 
 # + [markdown] id="8cGSUreL3T3t" colab_type="text"
 # This function computes $\mathbf{X}^+\mathbf{y}$, where $\mathbf{X}^{+}$ is the _pseudoinverse_ of $\mathbf{X}$ (specifically the Moore-Penrose inverse). You can use `np.linalg.pinv()` to compute the pseudoinverse directly:
 
-# + id="9l5ch8QF3T3u" colab_type="code" colab={} outputId="1846fd0d-4df4-45b8-def6-767c9a9b2300"
+# + id="9l5ch8QF3T3u" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 53} executionInfo={"status": "ok", "timestamp": 1600664504398, "user_tz": -540, "elapsed": 627, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="d9f2f8e1-78d2-4f86-9823-ddd21c372272"
 np.linalg.pinv(X_b).dot(y)
 
 # + [markdown] id="__yWIxwa3T30" colab_type="text"
 # # Linear regression using batch gradient descent
 
-# + id="IxzwPGW33T30" colab_type="code" colab={}
+# + id="IxzwPGW33T30" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600665463559, "user_tz": -540, "elapsed": 1165, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+#앞의 내용을 gradient방식으로 적용 
+
 eta = 0.1  # learning rate
 n_iterations = 1000
 m = 100
@@ -183,13 +198,14 @@ for iteration in range(n_iterations):
     gradients = 2/m * X_b.T.dot(X_b.dot(theta) - y)
     theta = theta - eta * gradients
 
-# + id="SYj4sAyF3T35" colab_type="code" colab={} outputId="cee19e1c-7ef2-4aac-fdc9-c6737a0ca389"
+# + id="SYj4sAyF3T35" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 53} executionInfo={"status": "ok", "timestamp": 1600665468173, "user_tz": -540, "elapsed": 1198, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="968d359f-4b2a-48c5-c4b7-bf9d6818be25"
 theta
 
-# + id="jKKBghiY3T38" colab_type="code" colab={} outputId="6df4c658-e19e-4bbe-f498-f3627ce82b46"
+# + id="jKKBghiY3T38" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 53} executionInfo={"status": "ok", "timestamp": 1600665475326, "user_tz": -540, "elapsed": 731, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="65737350-c569-43bb-86ba-d550c4f2e548"
 X_new_b.dot(theta)
 
-# + id="IL0IhYJv3T4A" colab_type="code" colab={}
+# + id="IL0IhYJv3T4A" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600665477620, "user_tz": -540, "elapsed": 741, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+
 theta_path_bgd = []
 
 def plot_gradient_descent(theta, eta, theta_path=None):
@@ -204,13 +220,13 @@ def plot_gradient_descent(theta, eta, theta_path=None):
         gradients = 2/m * X_b.T.dot(X_b.dot(theta) - y)
         theta = theta - eta * gradients
         if theta_path is not None:
-            theta_path.append(theta)
+            theta_path.append(theta) #theta path에 저장하여 learing rate에 따른 plot을 보기. 
     plt.xlabel("$x_1$", fontsize=18)
     plt.axis([0, 2, 0, 15])
     plt.title(r"$\eta = {}$".format(eta), fontsize=16)
 
 
-# + id="dYV_5hLN3T4E" colab_type="code" colab={} outputId="52ae48b3-006e-4782-9914-2bd5200358e0"
+# + id="dYV_5hLN3T4E" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 315} executionInfo={"status": "ok", "timestamp": 1600665523762, "user_tz": -540, "elapsed": 2094, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="ef528d53-42a9-4ed0-b28d-9cc79b73b685"
 np.random.seed(42)
 theta = np.random.randn(2,1)  # random initialization
 
@@ -226,12 +242,12 @@ plt.show()
 # + [markdown] id="2Oi1pTYP3T4H" colab_type="text"
 # # Stochastic Gradient Descent
 
-# + id="uf-2O0rL3T4H" colab_type="code" colab={}
+# + id="uf-2O0rL3T4H" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600665532892, "user_tz": -540, "elapsed": 744, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 theta_path_sgd = []
 m = len(X_b)
 np.random.seed(42)
 
-# + id="JRHvwNlr3T4K" colab_type="code" colab={} outputId="2b9e8d0f-afe5-4340-e078-102d3ea65629"
+# + id="JRHvwNlr3T4K" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 315} executionInfo={"status": "ok", "timestamp": 1600665540086, "user_tz": -540, "elapsed": 1372, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="d3f2b208-cd39-4838-c577-d8d6bfb81851"
 n_epochs = 50
 t0, t1 = 5, 50  # learning schedule hyperparameters
 
@@ -261,31 +277,34 @@ plt.axis([0, 2, 0, 15])                              # not shown
 save_fig("sgd_plot")                                 # not shown
 plt.show()                                           # not shown
 
-# + id="v_LHgSie3T4N" colab_type="code" colab={} outputId="54b39258-fa22-4a2d-a930-b70da6f11098"
+# + id="v_LHgSie3T4N" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 53} executionInfo={"status": "ok", "timestamp": 1600665554845, "user_tz": -540, "elapsed": 759, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="24d198ed-0813-4376-db44-358d4362b3d8"
 theta
 
-# + id="yY6SqK8v3T4R" colab_type="code" colab={} outputId="3c031538-d309-4450-8220-18d94cad2f1d"
+# + id="yY6SqK8v3T4R" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 125} executionInfo={"status": "ok", "timestamp": 1600665652710, "user_tz": -540, "elapsed": 680, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="cca2da94-000f-4a4a-f86e-1c27158053ad"
+#위에서는 sgd를 직접구현했다면, sklearn을 통해서 간단히 구현할 수 있다. 
 from sklearn.linear_model import SGDRegressor
 
 sgd_reg = SGDRegressor(max_iter=1000, tol=1e-3, penalty=None, eta0=0.1, random_state=42)
 sgd_reg.fit(X, y.ravel())
 
-# + id="LCDJ9EJi3T4T" colab_type="code" colab={} outputId="748aa64e-0f45-48e3-a66f-b9879a42e887"
+# + id="LCDJ9EJi3T4T" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 35} executionInfo={"status": "ok", "timestamp": 1600665656373, "user_tz": -540, "elapsed": 1028, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="29e19118-9a0d-4d3b-de11-eecf35b5d0c4"
 sgd_reg.intercept_, sgd_reg.coef_
 
 # + [markdown] id="gGpMl7hb3T4Z" colab_type="text"
 # # Mini-batch gradient descent
 
-# + id="dMiZsVxa3T4Z" colab_type="code" colab={}
+# + id="dMiZsVxa3T4Z" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600665709266, "user_tz": -540, "elapsed": 713, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 theta_path_mgd = []
 
 n_iterations = 50
-minibatch_size = 20
+minibatch_size = 20  #minibatch size를 정한다. 
 
 np.random.seed(42)
 theta = np.random.randn(2,1)  # random initialization
 
 t0, t1 = 200, 1000
+
+#learning_rate을 학습이 진행될수록 줄어들도록 설정하는 함수. 즉 초반부에는 크게 학습하다 해에 가까워질수록 학습률을 낮춘다. 
 def learning_schedule(t):
     return t0 / (t + t1)
 
@@ -296,22 +315,22 @@ for epoch in range(n_iterations):
     y_shuffled = y[shuffled_indices]
     for i in range(0, m, minibatch_size):
         t += 1
-        xi = X_b_shuffled[i:i+minibatch_size]
+        xi = X_b_shuffled[i:i+minibatch_size] #minibatch 만큼. 
         yi = y_shuffled[i:i+minibatch_size]
         gradients = 2/minibatch_size * xi.T.dot(xi.dot(theta) - yi)
         eta = learning_schedule(t)
         theta = theta - eta * gradients
         theta_path_mgd.append(theta)
 
-# + id="qj43fMVR3T4c" colab_type="code" colab={} outputId="98eee6d2-eef1-4705-f5e2-8c4cb88163a0"
+# + id="qj43fMVR3T4c" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 53} executionInfo={"status": "ok", "timestamp": 1600665714668, "user_tz": -540, "elapsed": 880, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="f1f121d5-9b9d-433c-898c-6d9b290641a8"
 theta
 
-# + id="uspngCl23T4f" colab_type="code" colab={}
+# + id="uspngCl23T4f" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600665984114, "user_tz": -540, "elapsed": 871, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 theta_path_bgd = np.array(theta_path_bgd)
 theta_path_sgd = np.array(theta_path_sgd)
 theta_path_mgd = np.array(theta_path_mgd)
 
-# + id="N_bbQKAf3T4j" colab_type="code" colab={} outputId="747e7720-78b7-4296-e259-80f7a4396da1"
+# + id="N_bbQKAf3T4j" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 315} executionInfo={"status": "ok", "timestamp": 1600665988750, "user_tz": -540, "elapsed": 1638, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="ab0f5d79-c4d8-46e1-e210-301e66cd6fd5"
 plt.figure(figsize=(7,4))
 plt.plot(theta_path_sgd[:, 0], theta_path_sgd[:, 1], "r-s", linewidth=1, label="Stochastic")
 plt.plot(theta_path_mgd[:, 0], theta_path_mgd[:, 1], "g-+", linewidth=2, label="Mini-batch")
@@ -326,18 +345,19 @@ plt.show()
 # + [markdown] id="g04QXLSq3T4l" colab_type="text"
 # # Polynomial regression
 
-# + id="lnvWkTf13T4l" colab_type="code" colab={}
+# + id="lnvWkTf13T4l" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600667136127, "user_tz": -540, "elapsed": 683, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 import numpy as np
 import numpy.random as rnd
 
 np.random.seed(42)
 
-# + id="lKGJ_Aez3T4o" colab_type="code" colab={}
+# + id="lKGJ_Aez3T4o" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600667140220, "user_tz": -540, "elapsed": 761, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+#2차항 추가. 
 m = 100
 X = 6 * np.random.rand(m, 1) - 3
 y = 0.5 * X**2 + X + 2 + np.random.randn(m, 1)
 
-# + id="o00apkph3T4s" colab_type="code" colab={} outputId="b81c3450-c4e1-4e6b-e23c-16e1dfbb2ab6"
+# + id="o00apkph3T4s" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 315} executionInfo={"status": "ok", "timestamp": 1600667146289, "user_tz": -540, "elapsed": 1328, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="e72198b7-cf7e-47c5-add8-dd1e01009b94"
 plt.plot(X, y, "b.")
 plt.xlabel("$x_1$", fontsize=18)
 plt.ylabel("$y$", rotation=0, fontsize=18)
@@ -345,25 +365,27 @@ plt.axis([-3, 3, 0, 10])
 save_fig("quadratic_data_plot")
 plt.show()
 
-# + id="h57KDZJt3T4v" colab_type="code" colab={} outputId="a6317fc5-476a-4caa-87ff-5e54f6a50f2f"
+# + id="h57KDZJt3T4v" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 35} executionInfo={"status": "ok", "timestamp": 1600667186958, "user_tz": -540, "elapsed": 644, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="36b1e2b7-a325-412f-9e5e-2c4700b21149"
+#sklearn으로 poly구현. 
 from sklearn.preprocessing import PolynomialFeatures
-poly_features = PolynomialFeatures(degree=2, include_bias=False)
+poly_features = PolynomialFeatures(degree=2, include_bias=False) #2차항
 X_poly = poly_features.fit_transform(X)
 X[0]
 
-# + id="q2V-gace3T4y" colab_type="code" colab={} outputId="5be0f8e9-2e60-4fc2-e978-9a51dd2f9b84"
-X_poly[0]
+# + id="q2V-gace3T4y" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 35} executionInfo={"status": "ok", "timestamp": 1600667195987, "user_tz": -540, "elapsed": 828, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="715946c6-90e4-4d8e-8ccc-4aea1341aa2a"
+X_poly[0]  #x^2 = 0.56664654
 
-# + id="Jyc4bxDF3T41" colab_type="code" colab={} outputId="90e251f1-ac72-4235-f2ed-c9ff5e9d9816"
+# + id="Jyc4bxDF3T41" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 35} executionInfo={"status": "ok", "timestamp": 1600667217592, "user_tz": -540, "elapsed": 925, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="5fd0d1fc-d8f3-416a-eb71-75db79ee7621"
 lin_reg = LinearRegression()
 lin_reg.fit(X_poly, y)
 lin_reg.intercept_, lin_reg.coef_
 
-# + id="guZ_7oiC3T44" colab_type="code" colab={} outputId="fc4494a5-15b1-4450-d27a-a9d6fe6d9ab3"
-X_new=np.linspace(-3, 3, 100).reshape(100, 1)
-X_new_poly = poly_features.transform(X_new)
-y_new = lin_reg.predict(X_new_poly)
-plt.plot(X, y, "b.")
+# + id="guZ_7oiC3T44" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 315} executionInfo={"status": "ok", "timestamp": 1600667301789, "user_tz": -540, "elapsed": 1240, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="e6d382a5-55dc-4564-bf37-4fe7e8f16715"
+#perdiction을 plot
+X_new=np.linspace(-3, 3, 100).reshape(100, 1) #-3에서 3사이에 100개의 점을 뽑음. 
+X_new_poly = poly_features.transform(X_new) #poly feature로 변환 
+y_new = lin_reg.predict(X_new_poly) 
+plt.plot(X, y, "b.") 
 plt.plot(X_new, y_new, "r-", linewidth=2, label="Predictions")
 plt.xlabel("$x_1$", fontsize=18)
 plt.ylabel("$y$", rotation=0, fontsize=18)
@@ -372,7 +394,8 @@ plt.axis([-3, 3, 0, 10])
 save_fig("quadratic_predictions_plot")
 plt.show()
 
-# + id="x67rRn3M3T46" colab_type="code" colab={} outputId="3430d338-c144-4858-88dd-a164f3f9a7d3"
+# + id="x67rRn3M3T46" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 315} executionInfo={"status": "ok", "timestamp": 1600667316868, "user_tz": -540, "elapsed": 1489, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="3e58040a-734a-4645-ee95-9a4eeb2a9a7e"
+#300차로 오버피티의 단점을 시각화해서 보기
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 
@@ -397,7 +420,8 @@ plt.axis([-3, 3, 0, 10])
 save_fig("high_degree_polynomials_plot")
 plt.show()
 
-# + id="LMuuAcxh3T49" colab_type="code" colab={}
+# + id="LMuuAcxh3T49" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600667353553, "user_tz": -540, "elapsed": 708, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+#각각의 mse는 어떻게될까 
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 
@@ -418,14 +442,16 @@ def plot_learning_curves(model, X, y):
     plt.ylabel("RMSE", fontsize=14)              # not shown
 
 
-# + id="8g0DFnhU3T5A" colab_type="code" colab={} outputId="9be1ea28-c904-4db5-e409-aa1d0f489cc1"
+# + id="8g0DFnhU3T5A" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 315} executionInfo={"status": "ok", "timestamp": 1600667357945, "user_tz": -540, "elapsed": 1123, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="5360e9b8-958c-426b-dfc1-75731ed154ef"
+#선형회귀때 mse 
 lin_reg = LinearRegression()
 plot_learning_curves(lin_reg, X, y)
 plt.axis([0, 80, 0, 3])                         # not shown in the book
 save_fig("underfitting_learning_curves_plot")   # not shown
 plt.show()                                      # not shown
 
-# + id="MVWOXrcL3T5E" colab_type="code" colab={} outputId="05d429a0-695c-4b88-ace0-716979d50b4e"
+# + id="MVWOXrcL3T5E" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 315} executionInfo={"status": "ok", "timestamp": 1600667421713, "user_tz": -540, "elapsed": 1389, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="e2a3a717-5f16-400a-b974-9d546003d56d"
+#poly degree가 10일때 mse. 
 from sklearn.pipeline import Pipeline
 
 polynomial_regression = Pipeline([
@@ -441,25 +467,25 @@ plt.show()                        # not shown
 # + [markdown] id="kqC5TnrT3T5G" colab_type="text"
 # # Regularized models
 
-# + id="JD7PQWYG3T5H" colab_type="code" colab={}
+# + id="JD7PQWYG3T5H" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600668804659, "user_tz": -540, "elapsed": 734, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 np.random.seed(42)
 m = 20
 X = 3 * np.random.rand(m, 1)
 y = 1 + 0.5 * X + np.random.randn(m, 1) / 1.5
 X_new = np.linspace(0, 3, 100).reshape(100, 1)
 
-# + id="lPIHUkSV3T5K" colab_type="code" colab={} outputId="07fcd768-d3f5-4294-927c-fdb2a2fcefb8"
+# + id="lPIHUkSV3T5K" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 35} executionInfo={"status": "ok", "timestamp": 1600668808785, "user_tz": -540, "elapsed": 1182, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="ba0268e8-8385-4a7d-83eb-ebc8506b17c1"
 from sklearn.linear_model import Ridge
 ridge_reg = Ridge(alpha=1, solver="cholesky", random_state=42)
 ridge_reg.fit(X, y)
 ridge_reg.predict([[1.5]])
 
-# + id="lAKLbYRP3T5O" colab_type="code" colab={} outputId="2bf0a2ef-14e8-44ca-dd5f-a553f891e107"
+# + id="lAKLbYRP3T5O" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 35} executionInfo={"status": "ok", "timestamp": 1600668811598, "user_tz": -540, "elapsed": 946, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="6eb71fa8-c7d3-47a0-da74-ef2bedb0fad0"
 ridge_reg = Ridge(alpha=1, solver="sag", random_state=42)
 ridge_reg.fit(X, y)
 ridge_reg.predict([[1.5]])
 
-# + id="sgsyCOlt3T5R" colab_type="code" colab={} outputId="3513f4f9-b104-431d-c673-e00859c15a3a"
+# + id="sgsyCOlt3T5R" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 315} executionInfo={"status": "ok", "timestamp": 1600668823094, "user_tz": -540, "elapsed": 1954, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="c1cb20b1-78bc-46ff-ee30-afc86c1f3d2a"
 from sklearn.linear_model import Ridge
 
 def plot_model(model_class, polynomial, alphas, **model_kargs):
@@ -493,12 +519,12 @@ plt.show()
 # + [markdown] id="TrWc8KkU3T5W" colab_type="text"
 # **Note**: to be future-proof, we set `max_iter=1000` and `tol=1e-3` because these will be the default values in Scikit-Learn 0.21.
 
-# + id="MuPoZhIp3T5W" colab_type="code" colab={} outputId="bcddfd70-270c-4edf-d98b-72a2f97f722c"
-sgd_reg = SGDRegressor(penalty="l2", max_iter=1000, tol=1e-3, random_state=42)
+# + id="MuPoZhIp3T5W" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 35} executionInfo={"status": "ok", "timestamp": 1600668887471, "user_tz": -540, "elapsed": 1115, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="c775db86-1ce3-4916-c612-8032c7d830d9"
+sgd_reg = SGDRegressor(penalty="l2", max_iter=1000, tol=1e-3, random_state=42) #L1으로 봐꾸면 LASSO가됨 (?)
 sgd_reg.fit(X, y.ravel())
 sgd_reg.predict([[1.5]])
 
-# + id="IdGbaika3T5Z" colab_type="code" colab={} outputId="87580077-cb72-4631-a2f0-52c19508cca2"
+# + id="IdGbaika3T5Z" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 371} executionInfo={"status": "ok", "timestamp": 1600668941628, "user_tz": -540, "elapsed": 2296, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="92f72231-4b01-4caf-ca6a-eaf880bc9c29"
 from sklearn.linear_model import Lasso
 
 plt.figure(figsize=(8,4))
@@ -511,19 +537,21 @@ plot_model(Lasso, polynomial=True, alphas=(0, 10**-7, 1), random_state=42)
 save_fig("lasso_regression_plot")
 plt.show()
 
-# + id="wD-h8_zJ3T5e" colab_type="code" colab={} outputId="f4c4e7fa-a6f5-4c28-e68d-b7c7273fc51a"
+# + id="wD-h8_zJ3T5e" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 36} executionInfo={"status": "ok", "timestamp": 1600668947664, "user_tz": -540, "elapsed": 979, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="6349ae70-599c-4ce8-e350-34c787e426cd"
 from sklearn.linear_model import Lasso
 lasso_reg = Lasso(alpha=0.1)
 lasso_reg.fit(X, y)
 lasso_reg.predict([[1.5]])
 
-# + id="4RERUuw_3T5g" colab_type="code" colab={} outputId="14fb1507-5217-4cad-ff78-61737766ff82"
+# + id="4RERUuw_3T5g" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 35} executionInfo={"status": "ok", "timestamp": 1600668969876, "user_tz": -540, "elapsed": 1086, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="fa906b35-fb7a-4730-c767-200ee96f735a"
+#Elastic net은 L1과 L2모두 고려한 모형임. 
 from sklearn.linear_model import ElasticNet
 elastic_net = ElasticNet(alpha=0.1, l1_ratio=0.5, random_state=42)
 elastic_net.fit(X, y)
 elastic_net.predict([[1.5]])
 
-# + id="vUxWZbxt3T5j" colab_type="code" colab={}
+# + id="vUxWZbxt3T5j" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600669208876, "user_tz": -540, "elapsed": 1044, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+#데이터를 만들어서 TRAIN과 val로 분리. 이 데이터로 ERALY STOPPING 설명. 
 np.random.seed(42)
 m = 100
 X = 6 * np.random.rand(m, 1) - 3
@@ -534,7 +562,7 @@ X_train, X_val, y_train, y_val = train_test_split(X[:50], y[:50].ravel(), test_s
 # + [markdown] id="iiQrngIH3T5m" colab_type="text"
 # Early stopping example:
 
-# + id="9MPXYLN23T5m" colab_type="code" colab={}
+# + id="9MPXYLN23T5m" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600669212028, "user_tz": -540, "elapsed": 1321, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 from copy import deepcopy
 
 poly_scaler = Pipeline([
@@ -563,10 +591,10 @@ for epoch in range(1000):
 # + [markdown] id="us_pd6ao3T5p" colab_type="text"
 # Create the graph:
 
-# + id="IoKtJ_EJ3T5q" colab_type="code" colab={} outputId="ed0b347c-f08b-4e83-bcd8-27efc654a4cd"
+# + id="IoKtJ_EJ3T5q" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 315} executionInfo={"status": "ok", "timestamp": 1600669294897, "user_tz": -540, "elapsed": 2101, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="fe4dd55e-4f51-42e3-b76a-2e0eab4be569"
 sgd_reg = SGDRegressor(max_iter=1, tol=-np.infty, warm_start=True,
                        penalty=None, learning_rate="constant", eta0=0.0005, random_state=42)
-
+#500번 돌린 후 best 모델 찾기
 n_epochs = 500
 train_errors, val_errors = [], []
 for epoch in range(n_epochs):
@@ -597,15 +625,15 @@ plt.ylabel("RMSE", fontsize=14)
 save_fig("early_stopping_plot")
 plt.show()
 
-# + id="pnXMqhzV3T5u" colab_type="code" colab={} outputId="3bbfac80-89c6-4c77-d9ed-875721a1e87b"
-best_epoch, best_model
+# + id="pnXMqhzV3T5u" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 143} executionInfo={"status": "ok", "timestamp": 1600669299911, "user_tz": -540, "elapsed": 984, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="ec8b300a-afd7-46f2-bc2c-5048842a84f0"
+best_epoch, best_model #best model
 
-# + id="BljF3VMO3T51" colab_type="code" colab={}
+# + id="BljF3VMO3T51" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600669304177, "user_tz": -540, "elapsed": 637, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 # %matplotlib inline
 import matplotlib.pyplot as plt
 import numpy as np
 
-# + id="IEjJUvwH3T55" colab_type="code" colab={}
+# + id="IEjJUvwH3T55" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600669308799, "user_tz": -540, "elapsed": 881, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 t1a, t1b, t2a, t2b = -1, 3, -1.5, 1.5
 
 t1s = np.linspace(t1a, t1b, 500)
@@ -626,7 +654,7 @@ t1_min, t2_min = t1[t_min_idx], t2[t_min_idx]
 t_init = np.array([[0.25], [-1]])
 
 
-# + id="MxsV2S0m3T59" colab_type="code" colab={} outputId="7fd26a5a-1560-4998-d1b9-00dadd581733"
+# + id="MxsV2S0m3T59" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 603} executionInfo={"status": "ok", "timestamp": 1600669316908, "user_tz": -540, "elapsed": 3845, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="51b814bd-62fb-4f66-d96f-e9dbd997ab3d"
 def bgd_path(theta, X, y, l1, l2, core = 1, eta = 0.05, n_iterations = 200):
     path = [theta]
     for iteration in range(n_iterations):
@@ -681,11 +709,12 @@ for i, N, l1, l2, title in ((0, N1, 2., 0, "Lasso"), (1, N2, 0,  2., "Ridge")):
 
 save_fig("lasso_vs_ridge_plot")
 plt.show()
+#L1 NORM은 파라미터를 0으로 설정되기도 해서 파마리터 셀렉션의 역할을 하기도 함. 
 
 # + [markdown] id="GcPAfQII3T6C" colab_type="text"
 # # Logistic regression
 
-# + id="X_pQdxP83T6D" colab_type="code" colab={} outputId="f2bb88a7-903d-476d-c08f-52a060b716a9"
+# + id="X_pQdxP83T6D" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 243} executionInfo={"status": "ok", "timestamp": 1600669821134, "user_tz": -540, "elapsed": 1209, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="f2270f61-1545-434e-f62b-e7119b077554"
 t = np.linspace(-10, 10, 100)
 sig = 1 / (1 + np.exp(-t))
 plt.figure(figsize=(9, 3))
@@ -699,28 +728,29 @@ plt.legend(loc="upper left", fontsize=20)
 plt.axis([-10, 10, -0.1, 1.1])
 save_fig("logistic_function_plot")
 plt.show()
+#0에서 1값을 갖도록 모델링 
 
-# + id="PUP5SFKL3T6I" colab_type="code" colab={} outputId="8a710c53-6f96-4bbf-f399-692d149e9dd9"
+# + id="PUP5SFKL3T6I" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 35} executionInfo={"status": "ok", "timestamp": 1600669847482, "user_tz": -540, "elapsed": 860, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="30f8834d-b843-4628-b8b4-840eac94afb2"
 from sklearn import datasets
 iris = datasets.load_iris()
 list(iris.keys())
 
-# + id="Vn9yg-LA3T6K" colab_type="code" colab={} outputId="41cd8019-c3a1-48a3-a458-c221a0374355"
+# + id="Vn9yg-LA3T6K" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 1000} executionInfo={"status": "ok", "timestamp": 1600669857088, "user_tz": -540, "elapsed": 792, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="2b958457-b2df-48cf-a5d2-f87b82dd7122"
 print(iris.DESCR)
 
-# + id="6jC5BYn83T6L" colab_type="code" colab={}
+# + id="6jC5BYn83T6L" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600669874097, "user_tz": -540, "elapsed": 848, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 X = iris["data"][:, 3:]  # petal width
 y = (iris["target"] == 2).astype(np.int)  # 1 if Iris virginica, else 0
 
 # + [markdown] id="R1to_Dg13T6O" colab_type="text"
 # **Note**: To be future-proof we set `solver="lbfgs"` since this will be the default value in Scikit-Learn 0.22.
 
-# + id="7rWHg08O3T6O" colab_type="code" colab={} outputId="199e9efb-3a00-44e6-d738-68b7465ca5e6"
+# + id="7rWHg08O3T6O" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 107} executionInfo={"status": "ok", "timestamp": 1600669960435, "user_tz": -540, "elapsed": 885, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="f91729fe-603f-4b73-ddb3-9552473ae9ad"
 from sklearn.linear_model import LogisticRegression
 log_reg = LogisticRegression(solver="lbfgs", random_state=42)
 log_reg.fit(X, y)
 
-# + id="RNQMf68R3T6R" colab_type="code" colab={} outputId="be64e716-b99c-4f5c-9e85-1a941dd3f06a"
+# + id="RNQMf68R3T6R" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 286} executionInfo={"status": "ok", "timestamp": 1600669964542, "user_tz": -540, "elapsed": 837, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="30c2fb1f-fe99-45ad-e2ef-f0998f4bd8cd"
 X_new = np.linspace(0, 3, 1000).reshape(-1, 1)
 y_proba = log_reg.predict_proba(X_new)
 
@@ -730,7 +760,7 @@ plt.plot(X_new, y_proba[:, 0], "b--", linewidth=2, label="Not Iris virginica")
 # + [markdown] id="iHl65O6P3T6T" colab_type="text"
 # The figure in the book actually is actually a bit fancier:
 
-# + id="Ou5E3CK23T6U" colab_type="code" colab={} outputId="0eba61fb-b2e6-4044-aee6-83b902e5a7bc"
+# + id="Ou5E3CK23T6U" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 243} executionInfo={"status": "ok", "timestamp": 1600669976250, "user_tz": -540, "elapsed": 1647, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="18e8e651-4f3c-423e-b150-a42dc0ab600c"
 X_new = np.linspace(0, 3, 1000).reshape(-1, 1)
 y_proba = log_reg.predict_proba(X_new)
 decision_boundary = X_new[y_proba[:, 1] >= 0.5][0]
@@ -751,13 +781,13 @@ plt.axis([0, 3, -0.02, 1.02])
 save_fig("logistic_regression_plot")
 plt.show()
 
-# + id="B_lN7SRt3T6W" colab_type="code" colab={} outputId="a9fc7436-083d-4bfd-d0de-53360efdbcc4"
+# + id="B_lN7SRt3T6W" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 35} executionInfo={"status": "ok", "timestamp": 1600669995724, "user_tz": -540, "elapsed": 1096, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="26d3e5f8-95f0-48dc-b470-fb0640a8383b"
 decision_boundary
 
-# + id="YswsX6-G3T6Y" colab_type="code" colab={} outputId="60134121-1260-4373-a122-9e2eb4f6618e"
+# + id="YswsX6-G3T6Y" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 35} executionInfo={"status": "ok", "timestamp": 1600670001096, "user_tz": -540, "elapsed": 1183, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="741cba52-0575-4cc0-f5fc-d5c7339a6cd5"
 log_reg.predict([[1.7], [1.5]])
 
-# + id="YCmWX52k3T6a" colab_type="code" colab={} outputId="30bf47c5-c857-4cc2-b2d3-0a14f29fd329"
+# + id="YCmWX52k3T6a" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 315} executionInfo={"status": "ok", "timestamp": 1600670006897, "user_tz": -540, "elapsed": 2033, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="60a10f65-d1da-47ab-b5a4-c81580a43f72"
 from sklearn.linear_model import LogisticRegression
 
 X = iris["data"][:, (2, 3)]  # petal length, petal width
@@ -795,14 +825,14 @@ plt.axis([2.9, 7, 0.8, 2.7])
 save_fig("logistic_regression_contour_plot")
 plt.show()
 
-# + id="7mpqdAz-3T6c" colab_type="code" colab={} outputId="75629487-b795-434e-d2cf-fc043e8ac12f"
+# + id="7mpqdAz-3T6c" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 107} executionInfo={"status": "ok", "timestamp": 1600670016430, "user_tz": -540, "elapsed": 660, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="16ea18fd-fa34-4d11-ebe4-ae356274e1df"
 X = iris["data"][:, (2, 3)]  # petal length, petal width
 y = iris["target"]
 
 softmax_reg = LogisticRegression(multi_class="multinomial",solver="lbfgs", C=10, random_state=42)
 softmax_reg.fit(X, y)
 
-# + id="Z8wjt4B_3T6e" colab_type="code" colab={} outputId="7a2ee493-b645-4bd3-a069-d3c475f1bde8"
+# + id="Z8wjt4B_3T6e" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 315} executionInfo={"status": "ok", "timestamp": 1600670052368, "user_tz": -540, "elapsed": 1843, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="e864da9b-51b5-4d0e-ab95-761b74001116"
 x0, x1 = np.meshgrid(
         np.linspace(0, 8, 500).reshape(-1, 1),
         np.linspace(0, 3.5, 200).reshape(-1, 1),
@@ -837,7 +867,7 @@ plt.show()
 # + id="0kcxLtka3T6f" colab_type="code" colab={} outputId="75b1acf3-ae7d-4fac-ada8-40eced29a468"
 softmax_reg.predict([[5, 2]])
 
-# + id="XZF-0QJc3T6h" colab_type="code" colab={} outputId="d086dd0c-c06b-40a8-8c3d-0e4c6dd44758"
+# + id="XZF-0QJc3T6h" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 35} executionInfo={"status": "ok", "timestamp": 1600670078914, "user_tz": -540, "elapsed": 834, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="bfba5ffe-5f61-4fe6-f74e-62dc1c166beb"
 softmax_reg.predict_proba([[5, 2]])
 
 # + [markdown] id="KDw1dkM03T6i" colab_type="text"
