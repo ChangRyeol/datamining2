@@ -27,7 +27,21 @@
 #   </td>
 # </table>
 
-# + id="6PtYtRnt3ytd" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 55} executionInfo={"status": "ok", "timestamp": 1600661727906, "user_tz": -540, "elapsed": 22139, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="5ec22455-6ef3-418d-be01-8313af2e2d20"
+# + id="JRH7q7L9l-lI" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 179} executionInfo={"status": "ok", "timestamp": 1600674393949, "user_tz": -540, "elapsed": 5425, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="5fb818e3-0387-4ffa-e56d-83a9e91fc8e2"
+# !pip install import_ipynb
+
+# + id="7UGWv4rbj4-B" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600674427126, "user_tz": -540, "elapsed": 1236, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+import import_ipynb
+
+# + id="HIGlCVG1pAKa" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 208} executionInfo={"status": "error", "timestamp": 1600674665164, "user_tz": -540, "elapsed": 938, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="34e48dc7-0a6a-4f4e-faf0-c04eb1e12be4"
+import os 
+import sys 
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+
+# + id="4EDnilkol1ii" colab_type="code" colab={}
+import datamining2.config.ibynb
+
+# + id="6PtYtRnt3ytd" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 53} executionInfo={"status": "ok", "timestamp": 1600675063732, "user_tz": -540, "elapsed": 27789, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="6320a734-12ee-4b4d-d8e1-34bec19f1a97"
 from google.colab import drive # import drive from google colab
 
 ROOT = "/content/drive"     # default location for the drive
@@ -38,15 +52,15 @@ drive.mount(ROOT)           # we mount the google drive at /content/drive
 # + id="v6vIA6y83_lw" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 36} executionInfo={"status": "ok", "timestamp": 1600661750672, "user_tz": -540, "elapsed": 780, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="0afaa227-4ee7-45d9-9f1d-001ff19947aa"
 # %cd 'drive/My Drive/Colab Notebooks/datamining2/class' 
 
-# + id="E6sbl6Qb4AhX" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 467} executionInfo={"status": "ok", "timestamp": 1600661765674, "user_tz": -540, "elapsed": 6505, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="5bd9bb33-62a3-456a-b0a7-54d1e0b1b0b8"
+# + id="E6sbl6Qb4AhX" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 431} executionInfo={"status": "ok", "timestamp": 1600675078221, "user_tz": -540, "elapsed": 5751, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="e60acded-981b-47a5-89dc-a6abd8947cf2"
 pip install jupytext #jupytext 설치 
 
-# + id="2E60tHvQ4EeZ" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 89} executionInfo={"status": "ok", "timestamp": 1600663963439, "user_tz": -540, "elapsed": 1865, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="a7aaf3cc-a00f-4881-f935-33bdf3526d50"
+# + id="2E60tHvQ4EeZ" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 46} outputId="e7fd6b87-d069-4ff9-bb24-42518643dc02"
 ## Pair a notebook to a light script
 # !jupytext --set-formats ipynb,py:light 04_training_linear_models.ipynb  
 
 
-# + id="HrV7zTda5Umb" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 89} executionInfo={"status": "ok", "timestamp": 1600663966555, "user_tz": -540, "elapsed": 1416, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="d880d877-7b57-4edf-8568-03ed34d76ada"
+# + id="HrV7zTda5Umb" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 89} executionInfo={"status": "ok", "timestamp": 1600670804065, "user_tz": -540, "elapsed": 1529, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="db01c0e4-cfa8-400f-a0a6-f2ed7603b15c"
 # Sync the two representations
 # !jupytext --sync 04_training_linear_models.ipynb
 
@@ -56,7 +70,7 @@ pip install jupytext #jupytext 설치
 # + [markdown] id="Z0xlfPfc3T2i" colab_type="text"
 # First, let's import a few common modules, ensure MatplotLib plots figures inline and prepare a function to save the figures. We also check that Python 3.5 or later is installed (although Python 2.x may work, it is deprecated so we strongly recommend you use Python 3 instead), as well as Scikit-Learn ≥0.20.
 
-# + id="BjNlbNfW3T2j" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600664095055, "user_tz": -540, "elapsed": 979, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+# + id="BjNlbNfW3T2j" colab_type="code" colab={}
 # Python ≥3.5 is required
 import sys
 assert sys.version_info >= (3, 5)
@@ -102,7 +116,7 @@ warnings.filterwarnings(action="ignore", message="^internal gelsd")
 # + [markdown] id="BYGC3ogX3T2o" colab_type="text"
 # # Linear regression using the Normal Equation
 
-# + id="TlH5f1qH3T2p" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600664220233, "user_tz": -540, "elapsed": 659, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+# + id="TlH5f1qH3T2p" colab_type="code" colab={}
 import numpy as np
 
 X = 2 * np.random.rand(100, 1)
@@ -123,7 +137,7 @@ plt.axis([0, 2, 0, 15])
 save_fig("generated_data_plot")
 plt.show()
 
-# + id="Uy4FItMz3T2z" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600664319754, "user_tz": -540, "elapsed": 857, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+# + id="Uy4FItMz3T2z" colab_type="code" colab={}
 #파라미터 찾기 
 X_b = np.c_[np.ones((100, 1)), X]  # add x0 = 1 to each instance
 theta_best = np.linalg.inv(X_b.T.dot(X_b)).dot(X_b.T).dot(y)
@@ -185,7 +199,7 @@ np.linalg.pinv(X_b).dot(y)
 # + [markdown] id="__yWIxwa3T30" colab_type="text"
 # # Linear regression using batch gradient descent
 
-# + id="IxzwPGW33T30" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600665463559, "user_tz": -540, "elapsed": 1165, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+# + id="IxzwPGW33T30" colab_type="code" colab={}
 #앞의 내용을 gradient방식으로 적용 
 
 eta = 0.1  # learning rate
@@ -204,7 +218,7 @@ theta
 # + id="jKKBghiY3T38" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 53} executionInfo={"status": "ok", "timestamp": 1600665475326, "user_tz": -540, "elapsed": 731, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="65737350-c569-43bb-86ba-d550c4f2e548"
 X_new_b.dot(theta)
 
-# + id="IL0IhYJv3T4A" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600665477620, "user_tz": -540, "elapsed": 741, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+# + id="IL0IhYJv3T4A" colab_type="code" colab={}
 
 theta_path_bgd = []
 
@@ -242,7 +256,7 @@ plt.show()
 # + [markdown] id="2Oi1pTYP3T4H" colab_type="text"
 # # Stochastic Gradient Descent
 
-# + id="uf-2O0rL3T4H" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600665532892, "user_tz": -540, "elapsed": 744, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+# + id="uf-2O0rL3T4H" colab_type="code" colab={}
 theta_path_sgd = []
 m = len(X_b)
 np.random.seed(42)
@@ -293,7 +307,7 @@ sgd_reg.intercept_, sgd_reg.coef_
 # + [markdown] id="gGpMl7hb3T4Z" colab_type="text"
 # # Mini-batch gradient descent
 
-# + id="dMiZsVxa3T4Z" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600665709266, "user_tz": -540, "elapsed": 713, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+# + id="dMiZsVxa3T4Z" colab_type="code" colab={}
 theta_path_mgd = []
 
 n_iterations = 50
@@ -325,7 +339,7 @@ for epoch in range(n_iterations):
 # + id="qj43fMVR3T4c" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 53} executionInfo={"status": "ok", "timestamp": 1600665714668, "user_tz": -540, "elapsed": 880, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="f1f121d5-9b9d-433c-898c-6d9b290641a8"
 theta
 
-# + id="uspngCl23T4f" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600665984114, "user_tz": -540, "elapsed": 871, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+# + id="uspngCl23T4f" colab_type="code" colab={}
 theta_path_bgd = np.array(theta_path_bgd)
 theta_path_sgd = np.array(theta_path_sgd)
 theta_path_mgd = np.array(theta_path_mgd)
@@ -345,13 +359,13 @@ plt.show()
 # + [markdown] id="g04QXLSq3T4l" colab_type="text"
 # # Polynomial regression
 
-# + id="lnvWkTf13T4l" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600667136127, "user_tz": -540, "elapsed": 683, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+# + id="lnvWkTf13T4l" colab_type="code" colab={}
 import numpy as np
 import numpy.random as rnd
 
 np.random.seed(42)
 
-# + id="lKGJ_Aez3T4o" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600667140220, "user_tz": -540, "elapsed": 761, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+# + id="lKGJ_Aez3T4o" colab_type="code" colab={}
 #2차항 추가. 
 m = 100
 X = 6 * np.random.rand(m, 1) - 3
@@ -420,7 +434,7 @@ plt.axis([-3, 3, 0, 10])
 save_fig("high_degree_polynomials_plot")
 plt.show()
 
-# + id="LMuuAcxh3T49" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600667353553, "user_tz": -540, "elapsed": 708, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+# + id="LMuuAcxh3T49" colab_type="code" colab={}
 #각각의 mse는 어떻게될까 
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
@@ -467,7 +481,7 @@ plt.show()                        # not shown
 # + [markdown] id="kqC5TnrT3T5G" colab_type="text"
 # # Regularized models
 
-# + id="JD7PQWYG3T5H" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600668804659, "user_tz": -540, "elapsed": 734, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+# + id="JD7PQWYG3T5H" colab_type="code" colab={}
 np.random.seed(42)
 m = 20
 X = 3 * np.random.rand(m, 1)
@@ -550,7 +564,7 @@ elastic_net = ElasticNet(alpha=0.1, l1_ratio=0.5, random_state=42)
 elastic_net.fit(X, y)
 elastic_net.predict([[1.5]])
 
-# + id="vUxWZbxt3T5j" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600669208876, "user_tz": -540, "elapsed": 1044, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+# + id="vUxWZbxt3T5j" colab_type="code" colab={}
 #데이터를 만들어서 TRAIN과 val로 분리. 이 데이터로 ERALY STOPPING 설명. 
 np.random.seed(42)
 m = 100
@@ -562,7 +576,7 @@ X_train, X_val, y_train, y_val = train_test_split(X[:50], y[:50].ravel(), test_s
 # + [markdown] id="iiQrngIH3T5m" colab_type="text"
 # Early stopping example:
 
-# + id="9MPXYLN23T5m" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600669212028, "user_tz": -540, "elapsed": 1321, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+# + id="9MPXYLN23T5m" colab_type="code" colab={}
 from copy import deepcopy
 
 poly_scaler = Pipeline([
@@ -628,12 +642,12 @@ plt.show()
 # + id="pnXMqhzV3T5u" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 143} executionInfo={"status": "ok", "timestamp": 1600669299911, "user_tz": -540, "elapsed": 984, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="ec8b300a-afd7-46f2-bc2c-5048842a84f0"
 best_epoch, best_model #best model
 
-# + id="BljF3VMO3T51" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600669304177, "user_tz": -540, "elapsed": 637, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+# + id="BljF3VMO3T51" colab_type="code" colab={}
 # %matplotlib inline
 import matplotlib.pyplot as plt
 import numpy as np
 
-# + id="IEjJUvwH3T55" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600669308799, "user_tz": -540, "elapsed": 881, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+# + id="IEjJUvwH3T55" colab_type="code" colab={}
 t1a, t1b, t2a, t2b = -1, 3, -1.5, 1.5
 
 t1s = np.linspace(t1a, t1b, 500)
@@ -738,7 +752,7 @@ list(iris.keys())
 # + id="Vn9yg-LA3T6K" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 1000} executionInfo={"status": "ok", "timestamp": 1600669857088, "user_tz": -540, "elapsed": 792, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="2b958457-b2df-48cf-a5d2-f87b82dd7122"
 print(iris.DESCR)
 
-# + id="6jC5BYn83T6L" colab_type="code" colab={} executionInfo={"status": "ok", "timestamp": 1600669874097, "user_tz": -540, "elapsed": 848, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+# + id="6jC5BYn83T6L" colab_type="code" colab={}
 X = iris["data"][:, 3:]  # petal width
 y = (iris["target"] == 2).astype(np.int)  # 1 if Iris virginica, else 0
 
