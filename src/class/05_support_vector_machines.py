@@ -14,19 +14,19 @@
 #     name: python3
 # ---
 
-# + [markdown] id="G_jiV2RCm4mg" colab_type="text"
+# + [markdown] id="G_jiV2RCm4mg"
 # **Chapter 5 – Support Vector Machines**
 #
 # _This notebook contains all the sample code and solutions to the exercises in chapter 5._
 
-# + [markdown] id="GJPpyXP6m4mh" colab_type="text"
+# + [markdown] id="GJPpyXP6m4mh"
 # <table align="left">
 #   <td>
 #     <a target="_blank" href="https://colab.research.google.com/github/ageron/handson-ml2/blob/master/05_support_vector_machines.ipynb"><img src="https://www.tensorflow.org/images/colab_logo_32px.png" />Run in Google Colab</a>
 #   </td>
 # </table>
 
-# + id="v-0Tebc4o95a" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 55} executionInfo={"status": "ok", "timestamp": 1600859168417, "user_tz": -540, "elapsed": 25274, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="37ebcc1d-e82e-41a0-a86c-23e8c71d3ff0"
+# + id="v-0Tebc4o95a" outputId="ebbb43d8-f6cb-46d8-ebd7-bb091dc0399c" colab={"base_uri": "https://localhost:8080/", "height": 125}
 from google.colab import drive # import drive from google colab
 
 ROOT = "/content/drive"     # default location for the drive
@@ -34,19 +34,28 @@ print(ROOT)                 # print content of ROOT (Optional)
 
 drive.mount(ROOT)           # we mount the google drive at /content/drive
 
-# + id="ZaxnFEa8pB6p" colab_type="code" colab={"base_uri": "https://localhost:8080/", "height": 36} executionInfo={"status": "ok", "timestamp": 1600859206613, "user_tz": -540, "elapsed": 665, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="95ac4b18-e4f0-446b-92b8-311a8f2dcf09"
+# + id="ZaxnFEa8pB6p" executionInfo={"status": "ok", "timestamp": 1600859206613, "user_tz": -540, "elapsed": 665, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="95ac4b18-e4f0-446b-92b8-311a8f2dcf09" colab={"base_uri": "https://localhost:8080/", "height": 35}
 # %cd 'drive/My Drive/Colab Notebooks/datamining2/src/class/' 
 
-# + id="wHElg7mfpTdo" colab_type="code" colab={"base_uri": "https://localhost:8080/"} outputId="ece6f58d-81aa-45d7-f822-faaa528cf20c"
+# + id="wHElg7mfpTdo" executionInfo={"status": "ok", "timestamp": 1600859231709, "user_tz": -540, "elapsed": 6064, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="ece6f58d-81aa-45d7-f822-faaa528cf20c" colab={"base_uri": "https://localhost:8080/", "height": 431}
 pip install jupytext #jupytext 설치 
 
-# + [markdown] id="G3HLtw1Bm4mi" colab_type="text"
+# + id="WzejPHBbpX8C" executionInfo={"status": "ok", "timestamp": 1600859262351, "user_tz": -540, "elapsed": 2050, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="dae22ad6-c5c6-4773-db20-e659d7f5fbf7" colab={"base_uri": "https://localhost:8080/", "height": 89}
+## Pair a notebook to a light script
+# !jupytext --set-formats ipynb,py:light 05_support_vector_machines.ipynb  
+
+
+# + id="Z4CHcvQ5pfzh" executionInfo={"status": "ok", "timestamp": 1600859284597, "user_tz": -540, "elapsed": 1467, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="b62bd013-11ad-4772-cf5e-3024ecbe69d9" colab={"base_uri": "https://localhost:8080/", "height": 89}
+# Sync the two representations
+# !jupytext --sync 05_support_vector_machines.ipynb
+
+# + [markdown] id="G3HLtw1Bm4mi"
 # # Setup
 
-# + [markdown] id="awzK8By5m4mj" colab_type="text"
+# + [markdown] id="awzK8By5m4mj"
 # First, let's import a few common modules, ensure MatplotLib plots figures inline and prepare a function to save the figures. We also check that Python 3.5 or later is installed (although Python 2.x may work, it is deprecated so we strongly recommend you use Python 3 instead), as well as Scikit-Learn ≥0.20.
 
-# + id="ot8jfbyjm4mk" colab_type="code" colab={}
+# + id="ot8jfbyjm4mk"
 # Python ≥3.5 is required
 import sys
 assert sys.version_info >= (3, 5)
@@ -84,13 +93,13 @@ def save_fig(fig_id, tight_layout=True, fig_extension="png", resolution=300):
     plt.savefig(path, format=fig_extension, dpi=resolution)
 
 
-# + [markdown] id="fDIPDJ5vm4mp" colab_type="text"
+# + [markdown] id="fDIPDJ5vm4mp"
 # # Large margin classification
 
-# + [markdown] id="_T6AP6gCm4mp" colab_type="text"
+# + [markdown] id="_T6AP6gCm4mp"
 # The next few code cells generate the first figures in chapter 5. The first actual code sample comes after:
 
-# + id="VaiRUCMkm4mq" colab_type="code" colab={} outputId="44a470fd-a8a6-4f48-b084-b50b547b9eba"
+# + id="VaiRUCMkm4mq" executionInfo={"status": "ok", "timestamp": 1600860071316, "user_tz": -540, "elapsed": 835, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="89cf2520-ed82-4530-dee2-9920bcdb1740" colab={"base_uri": "https://localhost:8080/", "height": 89}
 from sklearn.svm import SVC
 from sklearn import datasets
 
@@ -106,13 +115,14 @@ y = y[setosa_or_versicolor]
 svm_clf = SVC(kernel="linear", C=float("inf"))
 svm_clf.fit(X, y)
 
-# + id="ZKDGZL20m4mv" colab_type="code" colab={} outputId="0efdbb7e-e4dc-4171-b33c-9bf9552232de"
+# + id="ZKDGZL20m4mv" executionInfo={"status": "ok", "timestamp": 1600860153258, "user_tz": -540, "elapsed": 1473, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="6258f305-2e43-4916-dc99-f4495a00df2a" colab={"base_uri": "https://localhost:8080/", "height": 222}
 # Bad models
 x0 = np.linspace(0, 5.5, 200)
 pred_1 = 5*x0 - 20
 pred_2 = x0 - 1.8
 pred_3 = 0.1 * x0 + 0.5
 
+#svc의 decision boundary를 그려주는 함수
 def plot_svc_decision_boundary(svm_clf, xmin, xmax):
     w = svm_clf.coef_[0]
     b = svm_clf.intercept_[0]
@@ -155,10 +165,13 @@ plt.axis([0, 5.5, 0, 2])
 save_fig("large_margin_classification_plot")
 plt.show()
 
-# + [markdown] id="NCT77ysqm4mz" colab_type="text"
+# + [markdown] id="NCT77ysqm4mz"
 # # Sensitivity to feature scales
 
-# + id="G9gb9Sj6m4mz" colab_type="code" colab={} outputId="0854cdd0-f37b-42c2-ae68-8c31c7743eb9"
+# + id="G9gb9Sj6m4mz" executionInfo={"status": "ok", "timestamp": 1600860206998, "user_tz": -540, "elapsed": 1518, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="1ee7c3a9-731a-4da0-8840-3359a360ff1a" colab={"base_uri": "https://localhost:8080/", "height": 222}
+####
+##svm 은 스케일링을 해줘야 제대로 적합이 가능하다. 
+### 그림 그린 왼쪽은 스케일링이 안되서 제대로 분류하지 못함. 
 Xs = np.array([[1, 50], [5, 20], [3, 80], [5, 60]]).astype(np.float64)
 ys = np.array([0, 0, 1, 1])
 svm_clf = SVC(kernel="linear", C=100)
@@ -191,10 +204,10 @@ plt.axis([-2, 2, -2, 2])
 save_fig("sensitivity_to_feature_scales_plot")
 
 
-# + [markdown] id="F0p19k1Mm4m3" colab_type="text"
+# + [markdown] id="F0p19k1Mm4m3"
 # # Sensitivity to outliers
 
-# + id="GTth5EP1m4m4" colab_type="code" colab={} outputId="35ba3764-41e9-47d6-e42b-1b9b8ba27479"
+# + id="GTth5EP1m4m4" executionInfo={"status": "ok", "timestamp": 1600860211913, "user_tz": -540, "elapsed": 1472, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="64489586-fb6e-4bd7-a57e-398689c3d0c5" colab={"base_uri": "https://localhost:8080/", "height": 222}
 X_outliers = np.array([[3.4, 1.3], [3.2, 0.8]])
 y_outliers = np.array([0, 0])
 Xo1 = np.concatenate([X, X_outliers[:1]], axis=0)
@@ -239,13 +252,13 @@ plt.axis([0, 5.5, 0, 2])
 save_fig("sensitivity_to_outliers_plot")
 plt.show()
 
-# + [markdown] id="_vnij0ezm4m7" colab_type="text"
+# + [markdown] id="_vnij0ezm4m7"
 # # Large margin *vs* margin violations
 
-# + [markdown] id="zkegOggHm4m7" colab_type="text"
+# + [markdown] id="zkegOggHm4m7"
 # This is the first code example in chapter 5:
 
-# + id="ub2YsotYm4m-" colab_type="code" colab={} outputId="8725639f-4fbc-4eb2-9902-e1de40cd39b7"
+# + id="ub2YsotYm4m-" executionInfo={"status": "ok", "timestamp": 1600860221609, "user_tz": -540, "elapsed": 679, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="322cb7ca-71a9-4e3a-a75b-e1182dcf3906" colab={"base_uri": "https://localhost:8080/", "height": 197}
 import numpy as np
 from sklearn import datasets
 from sklearn.pipeline import Pipeline
@@ -256,24 +269,27 @@ iris = datasets.load_iris()
 X = iris["data"][:, (2, 3)]  # petal length, petal width
 y = (iris["target"] == 2).astype(np.float64)  # Iris virginica
 
-svm_clf = Pipeline([
-        ("scaler", StandardScaler()),
-        ("linear_svc", LinearSVC(C=1, loss="hinge", random_state=42)),
+svm_clf = Pipeline([ 
+        ("scaler", StandardScaler()), ##표준화
+        ("linear_svc", LinearSVC(C=1, loss="hinge", random_state=42)), ##c=1로 모델만듦. 
     ])
 
 svm_clf.fit(X, y)
 
-# + id="o8JTryCHm4nC" colab_type="code" colab={} outputId="739625ae-0ae0-42d1-eaf9-23fe6187560a"
+# + id="o8JTryCHm4nC" executionInfo={"status": "ok", "timestamp": 1600860405461, "user_tz": -540, "elapsed": 558, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="df8b5a26-8b51-409c-d0b8-816454aa37f2" colab={"base_uri": "https://localhost:8080/", "height": 35}
 svm_clf.predict([[5.5, 1.7]])
 
-# + [markdown] id="EKNsP0s1m4nG" colab_type="text"
+# + [markdown] id="EKNsP0s1m4nG"
 # Now let's generate the graph comparing different regularization settings:
 
-# + id="rjQ3Fqwum4nH" colab_type="code" colab={} outputId="0a741b81-4402-47ee-d379-a8e1e8071b56"
+# + id="rjQ3Fqwum4nH" executionInfo={"status": "ok", "timestamp": 1600860411181, "user_tz": -540, "elapsed": 684, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="e091cdde-30d1-4cf8-bf64-be75aeef40ff" colab={"base_uri": "https://localhost:8080/", "height": 197}
+
+##하이퍼파라미터 c를 통해 svc 의 마진 크기를 정함. 
 scaler = StandardScaler()
 svm_clf1 = LinearSVC(C=1, loss="hinge", random_state=42)
 svm_clf2 = LinearSVC(C=100, loss="hinge", random_state=42)
 
+##파이프라인을 두개 만들기. 
 scaled_svm_clf1 = Pipeline([
         ("scaler", scaler),
         ("linear_svc", svm_clf1),
@@ -286,7 +302,7 @@ scaled_svm_clf2 = Pipeline([
 scaled_svm_clf1.fit(X, y)
 scaled_svm_clf2.fit(X, y)
 
-# + id="4LjfEWC7m4nL" colab_type="code" colab={}
+# + id="4LjfEWC7m4nL"
 # Convert to unscaled parameters
 b1 = svm_clf1.decision_function([-scaler.mean_ / scaler.scale_])
 b2 = svm_clf2.decision_function([-scaler.mean_ / scaler.scale_])
@@ -304,7 +320,7 @@ support_vectors_idx2 = (t * (X.dot(w2) + b2) < 1).ravel()
 svm_clf1.support_vectors_ = X[support_vectors_idx1]
 svm_clf2.support_vectors_ = X[support_vectors_idx2]
 
-# + id="64dUT4szm4nP" colab_type="code" colab={} outputId="4a52f62d-c5ad-467a-903e-d0fd14479ab3"
+# + id="64dUT4szm4nP" executionInfo={"status": "ok", "timestamp": 1600860449096, "user_tz": -540, "elapsed": 1428, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="7ab0ae18-dc43-41c1-bf23-ec923cc6ec0b" colab={"base_uri": "https://localhost:8080/", "height": 222}
 fig, axes = plt.subplots(ncols=2, figsize=(10,2.7), sharey=True)
 
 plt.sca(axes[0])
@@ -327,10 +343,12 @@ plt.axis([4, 5.9, 0.8, 2.8])
 
 save_fig("regularization_plot")
 
-# + [markdown] id="R_ZlF0WNm4nU" colab_type="text"
+# + [markdown] id="R_ZlF0WNm4nU"
 # # Non-linear classification
 
-# + id="f8XyUxkFm4nV" colab_type="code" colab={} outputId="42bd95bc-10c7-42e1-b8fd-c3c0d898adae"
+# + id="f8XyUxkFm4nV" executionInfo={"status": "ok", "timestamp": 1600861713539, "user_tz": -540, "elapsed": 1606, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="3c3915a6-61f6-405e-8002-4349b572e32d" colab={"base_uri": "https://localhost:8080/", "height": 255}
+##svm에 non-linear 커널 사용. 
+
 X1D = np.linspace(-4, 4, 9).reshape(-1, 1)
 X2D = np.c_[X1D, X1D**2]
 y = np.array([0, 0, 1, 1, 1, 1, 1, 0, 0])
@@ -363,7 +381,7 @@ plt.subplots_adjust(right=1)
 save_fig("higher_dimensions_plot", tight_layout=False)
 plt.show()
 
-# + id="dTIeLExxm4nZ" colab_type="code" colab={} outputId="1967f821-16c0-4d4e-a6bf-7a2974165cd9"
+# + id="dTIeLExxm4nZ" executionInfo={"status": "ok", "timestamp": 1600861716740, "user_tz": -540, "elapsed": 653, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="4d9a1362-c1fc-4135-b84d-371dffda9a7e" colab={"base_uri": "https://localhost:8080/", "height": 296}
 from sklearn.datasets import make_moons
 X, y = make_moons(n_samples=100, noise=0.15, random_state=42)
 
@@ -378,7 +396,7 @@ def plot_dataset(X, y, axes):
 plot_dataset(X, y, [-1.5, 2.5, -1, 1.5])
 plt.show()
 
-# + id="4Go4c0xFm4nc" colab_type="code" colab={} outputId="6b1d39d8-02b3-462f-a6a4-82486b277a8f"
+# + id="4Go4c0xFm4nc" executionInfo={"status": "ok", "timestamp": 1600861724798, "user_tz": -540, "elapsed": 584, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="4d4789e7-6a80-4f6e-c0a8-2c405733fb87" colab={"base_uri": "https://localhost:8080/", "height": 287}
 from sklearn.datasets import make_moons
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import PolynomialFeatures
@@ -392,7 +410,7 @@ polynomial_svm_clf = Pipeline([
 polynomial_svm_clf.fit(X, y)
 
 
-# + id="bolfvslgm4nf" colab_type="code" colab={} outputId="b6f82dc2-7130-4dd9-d483-6963205b1efd"
+# + id="bolfvslgm4nf" executionInfo={"status": "ok", "timestamp": 1600861733757, "user_tz": -540, "elapsed": 1549, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="7fe38a29-060c-4fa8-e8e9-637a906ffbcd" colab={"base_uri": "https://localhost:8080/", "height": 315}
 def plot_predictions(clf, axes):
     x0s = np.linspace(axes[0], axes[1], 100)
     x1s = np.linspace(axes[2], axes[3], 100)
@@ -409,7 +427,8 @@ plot_dataset(X, y, [-1.5, 2.5, -1, 1.5])
 save_fig("moons_polynomial_svc_plot")
 plt.show()
 
-# + id="vQPHHFyym4ni" colab_type="code" colab={} outputId="4a3e8108-41b3-4bb4-e5ea-cbc0e91855a6"
+# + id="vQPHHFyym4ni" executionInfo={"status": "ok", "timestamp": 1600861739080, "user_tz": -540, "elapsed": 582, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="f8ce2fd4-7370-46cc-c384-9cbb9ec789fa" colab={"base_uri": "https://localhost:8080/", "height": 197}
+
 from sklearn.svm import SVC
 
 poly_kernel_svm_clf = Pipeline([
@@ -418,14 +437,14 @@ poly_kernel_svm_clf = Pipeline([
     ])
 poly_kernel_svm_clf.fit(X, y)
 
-# + id="ODr_t-1cm4nl" colab_type="code" colab={} outputId="ae6e4722-af38-4b87-93b3-371a260040f0"
+# + id="ODr_t-1cm4nl" executionInfo={"status": "ok", "timestamp": 1600861744623, "user_tz": -540, "elapsed": 784, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="3d43a232-53ed-4f54-b24a-5370d26485db" colab={"base_uri": "https://localhost:8080/", "height": 197}
 poly100_kernel_svm_clf = Pipeline([
         ("scaler", StandardScaler()),
         ("svm_clf", SVC(kernel="poly", degree=10, coef0=100, C=5))
     ])
 poly100_kernel_svm_clf.fit(X, y)
 
-# + id="WD7_pYKgm4no" colab_type="code" colab={} outputId="873b6082-ed8e-457b-d128-fa4d52bf82f6"
+# + id="WD7_pYKgm4no" outputId="873b6082-ed8e-457b-d128-fa4d52bf82f6"
 fig, axes = plt.subplots(ncols=2, figsize=(10.5, 4), sharey=True)
 
 plt.sca(axes[0])
@@ -443,7 +462,8 @@ save_fig("moons_kernelized_polynomial_svc_plot")
 plt.show()
 
 
-# + id="75LzT3jrm4nr" colab_type="code" colab={} outputId="80541b7b-3cb9-4662-e64a-740813eeb5f1"
+# + id="75LzT3jrm4nr" executionInfo={"status": "ok", "timestamp": 1600861820466, "user_tz": -540, "elapsed": 2066, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="e191ce0e-bb9e-49ad-ad24-5045ddae4b94" colab={"base_uri": "https://localhost:8080/", "height": 315}
+#gaussian_rbf 커널로 svm 돌리기. 
 def gaussian_rbf(x, landmark, gamma):
     return np.exp(-gamma * np.linalg.norm(x - landmark, axis=1)**2)
 
@@ -503,20 +523,20 @@ plt.subplots_adjust(right=1)
 save_fig("kernel_method_plot")
 plt.show()
 
-# + id="SWMQTqPNm4nu" colab_type="code" colab={} outputId="833456e4-a1b2-489d-ba79-66ce6f042237"
+# + id="SWMQTqPNm4nu" executionInfo={"status": "ok", "timestamp": 1600861828386, "user_tz": -540, "elapsed": 590, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="16994001-c861-427d-d9e3-9c0dacf33e5a" colab={"base_uri": "https://localhost:8080/", "height": 53}
 x1_example = X1D[3, 0]
 for landmark in (-2, 1):
     k = gaussian_rbf(np.array([[x1_example]]), np.array([[landmark]]), gamma)
     print("Phi({}, {}) = {}".format(x1_example, landmark, k))
 
-# + id="71Z45pc_m4nw" colab_type="code" colab={} outputId="f1ff9c06-f0d4-4220-dbaa-e03b384ba062"
+# + id="71Z45pc_m4nw" executionInfo={"status": "ok", "timestamp": 1600861834194, "user_tz": -540, "elapsed": 1380, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="e6a6d1c0-f08a-4067-d65c-41b3de352ccd" colab={"base_uri": "https://localhost:8080/", "height": 215}
 rbf_kernel_svm_clf = Pipeline([
         ("scaler", StandardScaler()),
         ("svm_clf", SVC(kernel="rbf", gamma=5, C=0.001))
     ])
 rbf_kernel_svm_clf.fit(X, y)
 
-# + id="PcqUl4bpm4nz" colab_type="code" colab={} outputId="c8f08409-c0ae-4bec-843a-4ed137de02be"
+# + id="PcqUl4bpm4nz" executionInfo={"status": "ok", "timestamp": 1600861841293, "user_tz": -540, "elapsed": 3647, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="b54f9899-256f-4d93-dbe4-b04dcafa8767" colab={"base_uri": "https://localhost:8080/", "height": 531}
 from sklearn.svm import SVC
 
 gamma1, gamma2 = 0.1, 5
@@ -548,23 +568,23 @@ for i, svm_clf in enumerate(svm_clfs):
 save_fig("moons_rbf_svc_plot")
 plt.show()
 
-# + [markdown] id="wy9Aztnxm4n1" colab_type="text"
+# + [markdown] id="wy9Aztnxm4n1"
 # # Regression
 #
 
-# + id="Ea2s8Bwym4n2" colab_type="code" colab={}
+# + id="Ea2s8Bwym4n2"
 np.random.seed(42)
 m = 50
 X = 2 * np.random.rand(m, 1)
 y = (4 + 3 * X + np.random.randn(m, 1)).ravel()
 
-# + id="uGy3WEEdm4n6" colab_type="code" colab={} outputId="435f3de3-0751-4a4e-bf97-62a8bdb9b8ec"
+# + id="uGy3WEEdm4n6" outputId="435f3de3-0751-4a4e-bf97-62a8bdb9b8ec"
 from sklearn.svm import LinearSVR
 
 svm_reg = LinearSVR(epsilon=1.5, random_state=42)
 svm_reg.fit(X, y)
 
-# + id="tYHvB8kMm4n_" colab_type="code" colab={}
+# + id="tYHvB8kMm4n_"
 svm_reg1 = LinearSVR(epsilon=1.5, random_state=42)
 svm_reg2 = LinearSVR(epsilon=0.5, random_state=42)
 svm_reg1.fit(X, y)
@@ -582,7 +602,7 @@ eps_x1 = 1
 eps_y_pred = svm_reg1.predict([[eps_x1]])
 
 
-# + id="MH7UjsNXm4oC" colab_type="code" colab={} outputId="6188deec-b32e-4764-89b6-6d02c66cf73c"
+# + id="MH7UjsNXm4oC" outputId="6188deec-b32e-4764-89b6-6d02c66cf73c"
 def plot_svm_regression(svm_reg, X, y, axes):
     x1s = np.linspace(axes[0], axes[1], 100).reshape(100, 1)
     y_pred = svm_reg.predict(x1s)
@@ -613,22 +633,22 @@ plt.title(r"$\epsilon = {}$".format(svm_reg2.epsilon), fontsize=18)
 save_fig("svm_regression_plot")
 plt.show()
 
-# + id="Qq9u9VJWm4oE" colab_type="code" colab={}
+# + id="Qq9u9VJWm4oE"
 np.random.seed(42)
 m = 100
 X = 2 * np.random.rand(m, 1) - 1
 y = (0.2 + 0.1 * X + 0.5 * X**2 + np.random.randn(m, 1)/10).ravel()
 
-# + [markdown] id="gCcaUTRrm4oH" colab_type="text"
+# + [markdown] id="gCcaUTRrm4oH"
 # **Note**: to be future-proof, we set `gamma="scale"`, as this will be the default value in Scikit-Learn 0.22.
 
-# + id="-F-9Yvgzm4oH" colab_type="code" colab={} outputId="c45cd5d4-7fa0-4f8a-c34b-159752356687"
+# + id="-F-9Yvgzm4oH" outputId="c45cd5d4-7fa0-4f8a-c34b-159752356687"
 from sklearn.svm import SVR
 
 svm_poly_reg = SVR(kernel="poly", degree=2, C=100, epsilon=0.1, gamma="scale")
 svm_poly_reg.fit(X, y)
 
-# + id="ayWDlSdQm4oK" colab_type="code" colab={} outputId="b1e35f48-7138-40d9-af13-632641ef548e"
+# + id="ayWDlSdQm4oK" outputId="b1e35f48-7138-40d9-af13-632641ef548e"
 from sklearn.svm import SVR
 
 svm_poly_reg1 = SVR(kernel="poly", degree=2, C=100, epsilon=0.1, gamma="scale")
@@ -636,7 +656,7 @@ svm_poly_reg2 = SVR(kernel="poly", degree=2, C=0.01, epsilon=0.1, gamma="scale")
 svm_poly_reg1.fit(X, y)
 svm_poly_reg2.fit(X, y)
 
-# + id="vqUCH38sm4oN" colab_type="code" colab={} outputId="d57abd5c-ba7f-454c-ef61-521844753db1"
+# + id="vqUCH38sm4oN" outputId="d57abd5c-ba7f-454c-ef61-521844753db1"
 fig, axes = plt.subplots(ncols=2, figsize=(9, 4), sharey=True)
 plt.sca(axes[0])
 plot_svm_regression(svm_poly_reg1, X, y, [-1, 1, 0, 1])
@@ -648,15 +668,15 @@ plt.title(r"$degree={}, C={}, \epsilon = {}$".format(svm_poly_reg2.degree, svm_p
 save_fig("svm_with_polynomial_kernel_plot")
 plt.show()
 
-# + [markdown] id="FRac0OT4m4oP" colab_type="text"
+# + [markdown] id="FRac0OT4m4oP"
 # # Under the hood
 
-# + id="exZJjcLCm4oQ" colab_type="code" colab={}
+# + id="exZJjcLCm4oQ"
 iris = datasets.load_iris()
 X = iris["data"][:, (2, 3)]  # petal length, petal width
 y = (iris["target"] == 2).astype(np.float64)  # Iris virginica
 
-# + id="bWZjO2GZm4oS" colab_type="code" colab={} outputId="5a16d3c0-329e-4e5a-991a-dde8074a96e0"
+# + id="bWZjO2GZm4oS" outputId="5a16d3c0-329e-4e5a-991a-dde8074a96e0"
 from mpl_toolkits.mplot3d import Axes3D
 
 def plot_3D_decision_function(ax, w, b, x1_lim=[4, 6], x2_lim=[0.8, 2.8]):
@@ -695,10 +715,10 @@ save_fig("iris_3D_plot")
 plt.show()
 
 
-# + [markdown] id="iy4YGa4um4oV" colab_type="text"
+# + [markdown] id="iy4YGa4um4oV"
 # # Small weight vector results in a large margin
 
-# + id="fdFsWVzem4oV" colab_type="code" colab={} outputId="39e2f4e5-d9cd-4381-d735-da5c541dc318"
+# + id="fdFsWVzem4oV" outputId="39e2f4e5-d9cd-4381-d735-da5c541dc318"
 def plot_2D_decision_function(w, b, ylabel=True, x1_lim=[-3, 3]):
     x1 = np.linspace(x1_lim[0], x1_lim[1], 200)
     y = w * x1 + b
@@ -726,7 +746,7 @@ plot_2D_decision_function(0.5, 0, ylabel=False)
 save_fig("small_w_large_margin_plot")
 plt.show()
 
-# + id="nRx7diMvm4oY" colab_type="code" colab={} outputId="04d1ce29-55eb-464e-9b2c-45c4cac31813"
+# + id="nRx7diMvm4oY" outputId="04d1ce29-55eb-464e-9b2c-45c4cac31813"
 from sklearn.svm import SVC
 from sklearn import datasets
 
@@ -738,10 +758,10 @@ svm_clf = SVC(kernel="linear", C=1)
 svm_clf.fit(X, y)
 svm_clf.predict([[5.3, 1.3]])
 
-# + [markdown] id="IFcnSDV6m4ob" colab_type="text"
+# + [markdown] id="IFcnSDV6m4ob"
 # # Hinge loss
 
-# + id="hhgRMQcqm4ob" colab_type="code" colab={} outputId="af9c12b9-a01d-4ae0-e113-ee027c389a68"
+# + id="hhgRMQcqm4ob" outputId="af9c12b9-a01d-4ae0-e113-ee027c389a68"
 t = np.linspace(-2, 4, 200)
 h = np.where(1 - t < 0, 0, 1 - t)  # max(0, 1-t)
 
@@ -757,18 +777,18 @@ plt.legend(loc="upper right", fontsize=16)
 save_fig("hinge_plot")
 plt.show()
 
-# + [markdown] id="rNcvNHPAm4of" colab_type="text"
+# + [markdown] id="rNcvNHPAm4of"
 # # Extra material
 
-# + [markdown] id="WfnuNYbdm4og" colab_type="text"
+# + [markdown] id="WfnuNYbdm4og"
 # ## Training time
 
-# + id="hQ9Yi9cmm4og" colab_type="code" colab={} outputId="c9498422-6843-4782-d8cb-7a3ea735a831"
+# + id="hQ9Yi9cmm4og" outputId="c9498422-6843-4782-d8cb-7a3ea735a831"
 X, y = make_moons(n_samples=1000, noise=0.4, random_state=42)
 plt.plot(X[:, 0][y==0], X[:, 1][y==0], "bs")
 plt.plot(X[:, 0][y==1], X[:, 1][y==1], "g^")
 
-# + id="p-iFSW10m4oj" colab_type="code" colab={} outputId="65236535-d827-443a-89fe-bbaf3dc1969b"
+# + id="p-iFSW10m4oj" outputId="65236535-d827-443a-89fe-bbaf3dc1969b"
 import time
 
 tol = 0.1
@@ -789,15 +809,15 @@ plt.ylabel("Time (seconds)", fontsize=16)
 plt.grid(True)
 plt.show()
 
-# + [markdown] id="Lyeyv52Bm4on" colab_type="text"
+# + [markdown] id="Lyeyv52Bm4on"
 # ## Linear SVM classifier implementation using Batch Gradient Descent
 
-# + id="_1l2jq0Vm4on" colab_type="code" colab={}
+# + id="_1l2jq0Vm4on"
 # Training set
 X = iris["data"][:, (2, 3)] # petal length, petal width
 y = (iris["target"] == 2).astype(np.float64).reshape(-1, 1) # Iris virginica
 
-# + id="m7Gzx4MTm4or" colab_type="code" colab={} outputId="a319a1a8-59d5-49b9-fcd8-4f84139a3ca7"
+# + id="m7Gzx4MTm4or" outputId="a319a1a8-59d5-49b9-fcd8-4f84139a3ca7"
 from sklearn.base import BaseEstimator
 
 class MyLinearSVC(BaseEstimator):
@@ -856,19 +876,19 @@ svm_clf = MyLinearSVC(C=C, eta0 = 10, eta_d = 1000, n_epochs=60000, random_state
 svm_clf.fit(X, y)
 svm_clf.predict(np.array([[5, 2], [4, 1]]))
 
-# + id="UpgM9c5Gm4oy" colab_type="code" colab={} outputId="9a30c30b-d3bb-4d15-ca2b-fdcc311df323"
+# + id="UpgM9c5Gm4oy" outputId="9a30c30b-d3bb-4d15-ca2b-fdcc311df323"
 plt.plot(range(svm_clf.n_epochs), svm_clf.Js)
 plt.axis([0, svm_clf.n_epochs, 0, 100])
 
-# + id="K0JHPBhym4o4" colab_type="code" colab={} outputId="6fd425e2-3ec4-4e6a-ddd8-c9f65bb7ae63"
+# + id="K0JHPBhym4o4" outputId="6fd425e2-3ec4-4e6a-ddd8-c9f65bb7ae63"
 print(svm_clf.intercept_, svm_clf.coef_)
 
-# + id="Erc9YZO6m4o9" colab_type="code" colab={} outputId="db781e35-644a-4743-d656-246cbb857183"
+# + id="Erc9YZO6m4o9" outputId="db781e35-644a-4743-d656-246cbb857183"
 svm_clf2 = SVC(kernel="linear", C=C)
 svm_clf2.fit(X, y.ravel())
 print(svm_clf2.intercept_, svm_clf2.coef_)
 
-# + id="lUAvP58sm4pB" colab_type="code" colab={} outputId="654a8ee3-1f55-41ca-dc46-22170b3c7334"
+# + id="lUAvP58sm4pB" outputId="654a8ee3-1f55-41ca-dc46-22170b3c7334"
 yr = y.ravel()
 fig, axes = plt.subplots(ncols=2, figsize=(11, 3.2), sharey=True)
 plt.sca(axes[0])
@@ -890,7 +910,7 @@ plt.title("SVC", fontsize=14)
 plt.axis([4, 6, 0.8, 2.8])
 
 
-# + id="tOqX3vgNm4pF" colab_type="code" colab={} outputId="5ab40963-9a8d-4310-c848-1f707e7f8ab7"
+# + id="tOqX3vgNm4pF" outputId="5ab40963-9a8d-4310-c848-1f707e7f8ab7"
 from sklearn.linear_model import SGDClassifier
 
 sgd_clf = SGDClassifier(loss="hinge", alpha=0.017, max_iter=1000, tol=1e-3, random_state=42)
@@ -916,25 +936,25 @@ plt.title("SGDClassifier", fontsize=14)
 plt.axis([4, 6, 0.8, 2.8])
 
 
-# + [markdown] id="zuG5z6X8m4pI" colab_type="text"
+# + [markdown] id="zuG5z6X8m4pI"
 # # Exercise solutions
 
-# + [markdown] id="fwrdOFQHm4pJ" colab_type="text"
+# + [markdown] id="fwrdOFQHm4pJ"
 # ## 1. to 7.
 
-# + [markdown] id="OXSJIFoVm4pK" colab_type="text"
+# + [markdown] id="OXSJIFoVm4pK"
 # See appendix A.
 
-# + [markdown] id="c9CakEaEm4pK" colab_type="text"
+# + [markdown] id="c9CakEaEm4pK"
 # # 8.
 
-# + [markdown] id="fzDQgtZtm4pL" colab_type="text"
+# + [markdown] id="fzDQgtZtm4pL"
 # _Exercise: train a `LinearSVC` on a linearly separable dataset. Then train an `SVC` and a `SGDClassifier` on the same dataset. See if you can get them to produce roughly the same model._
 
-# + [markdown] id="DnpIku0bm4pM" colab_type="text"
+# + [markdown] id="DnpIku0bm4pM"
 # Let's use the Iris dataset: the Iris Setosa and Iris Versicolor classes are linearly separable.
 
-# + id="wzKSrz_Fm4pM" colab_type="code" colab={}
+# + id="wzKSrz_Fm4pM"
 from sklearn import datasets
 
 iris = datasets.load_iris()
@@ -945,7 +965,7 @@ setosa_or_versicolor = (y == 0) | (y == 1)
 X = X[setosa_or_versicolor]
 y = y[setosa_or_versicolor]
 
-# + id="6r6CrhyOm4pP" colab_type="code" colab={} outputId="997d4f4a-717b-48af-fda0-349fe756155b"
+# + id="6r6CrhyOm4pP" outputId="997d4f4a-717b-48af-fda0-349fe756155b"
 from sklearn.svm import SVC, LinearSVC
 from sklearn.linear_model import SGDClassifier
 from sklearn.preprocessing import StandardScaler
@@ -969,10 +989,10 @@ print("LinearSVC:                   ", lin_clf.intercept_, lin_clf.coef_)
 print("SVC:                         ", svm_clf.intercept_, svm_clf.coef_)
 print("SGDClassifier(alpha={:.5f}):".format(sgd_clf.alpha), sgd_clf.intercept_, sgd_clf.coef_)
 
-# + [markdown] id="spmiwOG2m4pT" colab_type="text"
+# + [markdown] id="spmiwOG2m4pT"
 # Let's plot the decision boundaries of these three models:
 
-# + id="uHjlHGVCm4pT" colab_type="code" colab={} outputId="4aa7e4d6-26f2-46b0-c6e9-2212db0d9a01"
+# + id="uHjlHGVCm4pT" outputId="4aa7e4d6-26f2-46b0-c6e9-2212db0d9a01"
 # Compute the slope and bias of each decision boundary
 w1 = -lin_clf.coef_[0, 0]/lin_clf.coef_[0, 1]
 b1 = -lin_clf.intercept_[0]/lin_clf.coef_[0, 1]
@@ -1000,19 +1020,19 @@ plt.axis([0, 5.5, 0, 2])
 
 plt.show()
 
-# + [markdown] id="wBf2jiFSm4pY" colab_type="text"
+# + [markdown] id="wBf2jiFSm4pY"
 # Close enough!
 
-# + [markdown] id="7G5Ri2Ham4pZ" colab_type="text"
+# + [markdown] id="7G5Ri2Ham4pZ"
 # # 9.
 
-# + [markdown] id="1XfW6kFBm4pZ" colab_type="text"
+# + [markdown] id="1XfW6kFBm4pZ"
 # _Exercise: train an SVM classifier on the MNIST dataset. Since SVM classifiers are binary classifiers, you will need to use one-versus-all to classify all 10 digits. You may want to tune the hyperparameters using small validation sets to speed up the process. What accuracy can you reach?_
 
-# + [markdown] id="W6LQmnznm4pa" colab_type="text"
+# + [markdown] id="W6LQmnznm4pa"
 # First, let's load the dataset and split it into a training set and a test set. We could use `train_test_split()` but people usually just take the first 60,000 instances for the training set, and the last 10,000 instances for the test set (this makes it possible to compare your model's performance with others): 
 
-# + id="Wqf3v8-fm4pa" colab_type="code" colab={}
+# + id="Wqf3v8-fm4pa"
 from sklearn.datasets import fetch_openml
 mnist = fetch_openml('mnist_784', version=1, cache=True)
 
@@ -1024,64 +1044,64 @@ y_train = y[:60000]
 X_test = X[60000:]
 y_test = y[60000:]
 
-# + [markdown] id="zIv52fkom4pg" colab_type="text"
+# + [markdown] id="zIv52fkom4pg"
 # Many training algorithms are sensitive to the order of the training instances, so it's generally good practice to shuffle them first. However, the dataset is already shuffled, so we do not need to do it.
 
-# + [markdown] id="4LjBJP0Rm4ph" colab_type="text"
+# + [markdown] id="4LjBJP0Rm4ph"
 # Let's start simple, with a linear SVM classifier. It will automatically use the One-vs-All (also called One-vs-the-Rest, OvR) strategy, so there's nothing special we need to do. Easy!
 #
 # **Warning**: this may take a few minutes depending on your hardware.
 
-# + id="MN8tKlkhm4ph" colab_type="code" colab={} outputId="9cc7d076-0fa9-472b-a91a-555b1b45cadb"
+# + id="MN8tKlkhm4ph" outputId="9cc7d076-0fa9-472b-a91a-555b1b45cadb"
 lin_clf = LinearSVC(random_state=42)
 lin_clf.fit(X_train, y_train)
 
-# + [markdown] id="OCVUm8qtm4pl" colab_type="text"
+# + [markdown] id="OCVUm8qtm4pl"
 # Let's make predictions on the training set and measure the accuracy (we don't want to measure it on the test set yet, since we have not selected and trained the final model yet):
 
-# + id="AfuouwWDm4pl" colab_type="code" colab={} outputId="7f39384b-7027-4ad1-cc3f-9798b43b31e3"
+# + id="AfuouwWDm4pl" outputId="7f39384b-7027-4ad1-cc3f-9798b43b31e3"
 from sklearn.metrics import accuracy_score
 
 y_pred = lin_clf.predict(X_train)
 accuracy_score(y_train, y_pred)
 
-# + [markdown] id="kXlGBZdUm4pn" colab_type="text"
+# + [markdown] id="kXlGBZdUm4pn"
 # Okay, 89.5% accuracy on MNIST is pretty bad. This linear model is certainly too simple for MNIST, but perhaps we just needed to scale the data first:
 
-# + id="KbIOOMeUm4po" colab_type="code" colab={}
+# + id="KbIOOMeUm4po"
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train.astype(np.float32))
 X_test_scaled = scaler.transform(X_test.astype(np.float32))
 
-# + [markdown] id="LHynDCS_m4pt" colab_type="text"
+# + [markdown] id="LHynDCS_m4pt"
 # **Warning**: this may take a few minutes depending on your hardware.
 
-# + id="5zY0_zyTm4pt" colab_type="code" colab={} outputId="440cbe8c-871b-4d5c-bb87-913a13f853de"
+# + id="5zY0_zyTm4pt" outputId="440cbe8c-871b-4d5c-bb87-913a13f853de"
 lin_clf = LinearSVC(random_state=42)
 lin_clf.fit(X_train_scaled, y_train)
 
-# + id="jb1cLot1m4pw" colab_type="code" colab={} outputId="564d6f56-084b-4c96-9eca-41d3f017be0e"
+# + id="jb1cLot1m4pw" outputId="564d6f56-084b-4c96-9eca-41d3f017be0e"
 y_pred = lin_clf.predict(X_train_scaled)
 accuracy_score(y_train, y_pred)
 
-# + [markdown] id="ALlh7gx3m4pz" colab_type="text"
+# + [markdown] id="ALlh7gx3m4pz"
 # That's much better (we cut the error rate by about 25%), but still not great at all for MNIST. If we want to use an SVM, we will have to use a kernel. Let's try an `SVC` with an RBF kernel (the default).
 
-# + [markdown] id="xmBTZCetm4pz" colab_type="text"
+# + [markdown] id="xmBTZCetm4pz"
 # **Note**: to be future-proof we set `gamma="scale"` since it will be the default value in Scikit-Learn 0.22.
 
-# + id="jQ6EIy12m4p0" colab_type="code" colab={} outputId="ca15d526-cd4e-42c2-adb3-338fdb38b192"
+# + id="jQ6EIy12m4p0" outputId="ca15d526-cd4e-42c2-adb3-338fdb38b192"
 svm_clf = SVC(gamma="scale")
 svm_clf.fit(X_train_scaled[:10000], y_train[:10000])
 
-# + id="hWLUWLCsm4p4" colab_type="code" colab={} outputId="c59fc7cb-5f45-48a9-cc0b-5d47f96b3c60"
+# + id="hWLUWLCsm4p4" outputId="c59fc7cb-5f45-48a9-cc0b-5d47f96b3c60"
 y_pred = svm_clf.predict(X_train_scaled)
 accuracy_score(y_train, y_pred)
 
-# + [markdown] id="1dktNHeBm4p6" colab_type="text"
+# + [markdown] id="1dktNHeBm4p6"
 # That's promising, we get better performance even though we trained the model on 6 times less data. Let's tune the hyperparameters by doing a randomized search with cross validation. We will do this on a small dataset just to speed up the process:
 
-# + id="FBXBeihYm4p7" colab_type="code" colab={} outputId="fd813cc9-3f90-462c-e925-b6873914c0da"
+# + id="FBXBeihYm4p7" outputId="fd813cc9-3f90-462c-e925-b6873914c0da"
 from sklearn.model_selection import RandomizedSearchCV
 from scipy.stats import reciprocal, uniform
 
@@ -1089,95 +1109,95 @@ param_distributions = {"gamma": reciprocal(0.001, 0.1), "C": uniform(1, 10)}
 rnd_search_cv = RandomizedSearchCV(svm_clf, param_distributions, n_iter=10, verbose=2, cv=3)
 rnd_search_cv.fit(X_train_scaled[:1000], y_train[:1000])
 
-# + id="idxFXe_Gm4p-" colab_type="code" colab={} outputId="4c404574-4cfa-4c6f-f62a-ea5f9e736c12"
+# + id="idxFXe_Gm4p-" outputId="4c404574-4cfa-4c6f-f62a-ea5f9e736c12"
 rnd_search_cv.best_estimator_
 
-# + id="h5Z8Q6JWm4qB" colab_type="code" colab={} outputId="24d8ea86-d420-4e9e-beb6-a3d9bdeb85b9"
+# + id="h5Z8Q6JWm4qB" outputId="24d8ea86-d420-4e9e-beb6-a3d9bdeb85b9"
 rnd_search_cv.best_score_
 
-# + [markdown] id="xlgMS7rym4qE" colab_type="text"
+# + [markdown] id="xlgMS7rym4qE"
 # This looks pretty low but remember we only trained the model on 1,000 instances. Let's retrain the best estimator on the whole training set (run this at night, it will take hours):
 
-# + id="PqWunBdEm4qE" colab_type="code" colab={} outputId="a484802b-de79-4b34-d823-020677541890"
+# + id="PqWunBdEm4qE" outputId="a484802b-de79-4b34-d823-020677541890"
 rnd_search_cv.best_estimator_.fit(X_train_scaled, y_train)
 
-# + id="cq6Ny7fEm4qG" colab_type="code" colab={} outputId="02983c6d-e4cd-42c1-e377-d8523ef7e1b5"
+# + id="cq6Ny7fEm4qG" outputId="02983c6d-e4cd-42c1-e377-d8523ef7e1b5"
 y_pred = rnd_search_cv.best_estimator_.predict(X_train_scaled)
 accuracy_score(y_train, y_pred)
 
-# + [markdown] id="rizUIjUxm4qI" colab_type="text"
+# + [markdown] id="rizUIjUxm4qI"
 # Ah, this looks good! Let's select this model. Now we can test it on the test set:
 
-# + id="fp3Gc1wgm4qI" colab_type="code" colab={} outputId="270f26e0-79ae-4d0a-eaed-694ae5220536"
+# + id="fp3Gc1wgm4qI" outputId="270f26e0-79ae-4d0a-eaed-694ae5220536"
 y_pred = rnd_search_cv.best_estimator_.predict(X_test_scaled)
 accuracy_score(y_test, y_pred)
 
-# + [markdown] id="d-yJzlatm4qL" colab_type="text"
+# + [markdown] id="d-yJzlatm4qL"
 # Not too bad, but apparently the model is overfitting slightly. It's tempting to tweak the hyperparameters a bit more (e.g. decreasing `C` and/or `gamma`), but we would run the risk of overfitting the test set. Other people have found that the hyperparameters `C=5` and `gamma=0.005` yield even better performance (over 98% accuracy). By running the randomized search for longer and on a larger part of the training set, you may be able to find this as well.
 
-# + [markdown] id="iVap1tk_m4qL" colab_type="text"
+# + [markdown] id="iVap1tk_m4qL"
 # ## 10.
 
-# + [markdown] id="jLHYh_7Bm4qL" colab_type="text"
+# + [markdown] id="jLHYh_7Bm4qL"
 # _Exercise: train an SVM regressor on the California housing dataset._
 
-# + [markdown] id="xn_V68ksm4qM" colab_type="text"
+# + [markdown] id="xn_V68ksm4qM"
 # Let's load the dataset using Scikit-Learn's `fetch_california_housing()` function:
 
-# + id="031EDEjgm4qM" colab_type="code" colab={}
+# + id="031EDEjgm4qM"
 from sklearn.datasets import fetch_california_housing
 
 housing = fetch_california_housing()
 X = housing["data"]
 y = housing["target"]
 
-# + [markdown] id="Q1yzQQVMm4qO" colab_type="text"
+# + [markdown] id="Q1yzQQVMm4qO"
 # Split it into a training set and a test set:
 
-# + id="UEOQFTHgm4qO" colab_type="code" colab={}
+# + id="UEOQFTHgm4qO"
 from sklearn.model_selection import train_test_split
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# + [markdown] id="tb-eh78qm4qR" colab_type="text"
+# + [markdown] id="tb-eh78qm4qR"
 # Don't forget to scale the data:
 
-# + id="MHAVnSIum4qU" colab_type="code" colab={}
+# + id="MHAVnSIum4qU"
 from sklearn.preprocessing import StandardScaler
 
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
-# + [markdown] id="S7Mj2_Knm4qW" colab_type="text"
+# + [markdown] id="S7Mj2_Knm4qW"
 # Let's train a simple `LinearSVR` first:
 
-# + id="5P_ox0qUm4qW" colab_type="code" colab={} outputId="d1aadeb1-a2ec-4bd0-be82-c3523322bcd6"
+# + id="5P_ox0qUm4qW" outputId="d1aadeb1-a2ec-4bd0-be82-c3523322bcd6"
 from sklearn.svm import LinearSVR
 
 lin_svr = LinearSVR(random_state=42)
 lin_svr.fit(X_train_scaled, y_train)
 
-# + [markdown] id="YuWth97bm4qZ" colab_type="text"
+# + [markdown] id="YuWth97bm4qZ"
 # Let's see how it performs on the training set:
 
-# + id="Z0Pye3g3m4qZ" colab_type="code" colab={} outputId="72709eb5-2395-4b95-f411-f6b800201e8f"
+# + id="Z0Pye3g3m4qZ" outputId="72709eb5-2395-4b95-f411-f6b800201e8f"
 from sklearn.metrics import mean_squared_error
 
 y_pred = lin_svr.predict(X_train_scaled)
 mse = mean_squared_error(y_train, y_pred)
 mse
 
-# + [markdown] id="_QhLl9HDm4qb" colab_type="text"
+# + [markdown] id="_QhLl9HDm4qb"
 # Let's look at the RMSE:
 
-# + id="cWteuQYDm4qc" colab_type="code" colab={} outputId="6016d73f-4dad-4f55-8f34-15e09fb33789"
+# + id="cWteuQYDm4qc" outputId="6016d73f-4dad-4f55-8f34-15e09fb33789"
 np.sqrt(mse)
 
-# + [markdown] id="7PggLhsCm4qe" colab_type="text"
+# + [markdown] id="7PggLhsCm4qe"
 # In this training set, the targets are tens of thousands of dollars. The RMSE gives a rough idea of the kind of error you should expect (with a higher weight for large errors): so with this model we can expect errors somewhere around $10,000. Not great. Let's see if we can do better with an RBF Kernel. We will use randomized search with cross validation to find the appropriate hyperparameter values for `C` and `gamma`:
 
-# + id="iDmzgHsem4qf" colab_type="code" colab={} outputId="c32bb821-12ec-4ca6-e5fc-7f920642a1e4"
+# + id="iDmzgHsem4qf" outputId="c32bb821-12ec-4ca6-e5fc-7f920642a1e4"
 from sklearn.svm import SVR
 from sklearn.model_selection import RandomizedSearchCV
 from scipy.stats import reciprocal, uniform
@@ -1186,24 +1206,24 @@ param_distributions = {"gamma": reciprocal(0.001, 0.1), "C": uniform(1, 10)}
 rnd_search_cv = RandomizedSearchCV(SVR(), param_distributions, n_iter=10, verbose=2, cv=3, random_state=42)
 rnd_search_cv.fit(X_train_scaled, y_train)
 
-# + id="R0KIdNzUm4qi" colab_type="code" colab={} outputId="68c3a688-1d3f-4d83-8292-304c34080dad"
+# + id="R0KIdNzUm4qi" outputId="68c3a688-1d3f-4d83-8292-304c34080dad"
 rnd_search_cv.best_estimator_
 
-# + [markdown] id="lwCc_KNcm4qm" colab_type="text"
+# + [markdown] id="lwCc_KNcm4qm"
 # Now let's measure the RMSE on the training set:
 
-# + id="3QMy9U05m4qm" colab_type="code" colab={} outputId="a9ce053e-3524-403b-965b-abf4ef0e06a7"
+# + id="3QMy9U05m4qm" outputId="a9ce053e-3524-403b-965b-abf4ef0e06a7"
 y_pred = rnd_search_cv.best_estimator_.predict(X_train_scaled)
 mse = mean_squared_error(y_train, y_pred)
 np.sqrt(mse)
 
-# + [markdown] id="I18GWz-wm4qp" colab_type="text"
+# + [markdown] id="I18GWz-wm4qp"
 # Looks much better than the linear model. Let's select this model and evaluate it on the test set:
 
-# + id="QWvHnILym4qp" colab_type="code" colab={} outputId="ed782632-36b8-426e-b5d9-5b86fed49e05"
+# + id="QWvHnILym4qp" outputId="ed782632-36b8-426e-b5d9-5b86fed49e05"
 y_pred = rnd_search_cv.best_estimator_.predict(X_test_scaled)
 mse = mean_squared_error(y_test, y_pred)
 np.sqrt(mse)
 
-# + id="f_8QyI_Pm4qs" colab_type="code" colab={}
+# + id="f_8QyI_Pm4qs"
 
