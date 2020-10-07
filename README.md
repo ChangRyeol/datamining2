@@ -1,4 +1,4 @@
-# datamining2 
+# Datamining2 
 - 주교재 : 핸즈온 머신러닝 2판 
 - 교수 : 곽일엽 교수님 
 
