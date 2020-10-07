@@ -4,7 +4,7 @@
 
 ## 파일/폴더 
 - class : 수업때 진행한 코드 
-- data : 분석에 필요한 data 파일 
+- datasets : 분석에 필요한 data 파일 
 - hw : 과제 
 
 ## 실습환경
