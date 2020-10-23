@@ -14,7 +14,7 @@
 #     name: python3
 # ---
 
-# + colab={"base_uri": "https://localhost:8080/", "height": 53} executionInfo={"elapsed": 28058, "status": "ok", "timestamp": 1603448493745, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} id="TpVxT9gaTAVw" outputId="0914547b-d5e9-4b3e-c49f-bdcc9fab35ad"
+# + id="TpVxT9gaTAVw" executionInfo={"status": "ok", "timestamp": 1603450853904, "user_tz": -540, "elapsed": 931, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="d8c2c891-de28-4f09-a792-c635dee1a86f" colab={"base_uri": "https://localhost:8080/", "height": 55}
 from google.colab import drive # import drive from google colab
 
 ROOT = "/content/drive"     # default location for the drive
@@ -22,17 +22,17 @@ print(ROOT)                 # print content of ROOT (Optional)
 
 drive.mount(ROOT)           # we mount the google drive at /content/drive
 
-# + id="Zw_YAth8Tuut"
+# + id="Zw_YAth8Tuut" executionInfo={"status": "ok", "timestamp": 1603450855274, "user_tz": -540, "elapsed": 1258, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="9665d6de-7035-43bb-e538-e189ea924fd7" colab={"base_uri": "https://localhost:8080/", "height": 55}
 # %cd 'drive/My Drive/Colab Notebooks/datamining2/src/class/' 
 
-# + colab={"base_uri": "https://localhost:8080/", "height": 467} executionInfo={"elapsed": 6345, "status": "ok", "timestamp": 1602145432482, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} id="Si2GMoeNTxRj" outputId="5d3c1a73-e21a-4711-a23e-adc8172905d1"
+# + id="Si2GMoeNTxRj" executionInfo={"status": "ok", "timestamp": 1603450857622, "user_tz": -540, "elapsed": 2629, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="35376da1-d4f0-4663-f50b-be0c76881ec4" colab={"base_uri": "https://localhost:8080/", "height": 261}
 pip install jupytext #jupytext 설치 
 
-# + colab={"base_uri": "https://localhost:8080/", "height": 92} executionInfo={"elapsed": 2745, "status": "ok", "timestamp": 1602145454738, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} id="XqeC-Qk6T1la" outputId="189ae668-b908-4554-8732-eac2efc992b2"
+# + id="XqeC-Qk6T1la" executionInfo={"elapsed": 2745, "status": "ok", "timestamp": 1602145454738, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} outputId="189ae668-b908-4554-8732-eac2efc992b2" colab={"base_uri": "https://localhost:8080/", "height": 92}
 ## Pair a notebook to a light script
 # !jupytext --set-formats ipynb,py:light 08_dimensionality_reduction.ipynb  
 
-# + colab={"base_uri": "https://localhost:8080/", "height": 92} executionInfo={"elapsed": 1797, "status": "ok", "timestamp": 1602145477462, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} id="-coqjg36T7v4" outputId="ba7fa35f-c19e-4e97-a4f7-2b3cb58c0f92"
+# + id="-coqjg36T7v4" executionInfo={"elapsed": 1797, "status": "ok", "timestamp": 1602145477462, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} outputId="ba7fa35f-c19e-4e97-a4f7-2b3cb58c0f92" colab={"base_uri": "https://localhost:8080/", "height": 92}
 # Sync the two representations
 # !jupytext --sync 08_dimensionality_reduction.ipynb
 
@@ -127,7 +127,7 @@ m, n = X.shape
 S = np.zeros(X_centered.shape)
 S[:n, :n] = np.diag(s)
 
-# + colab={"base_uri": "https://localhost:8080/", "height": 36} executionInfo={"elapsed": 905, "status": "ok", "timestamp": 1602145598086, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} id="n5Ov3ijlS4bo" outputId="5690fafa-d593-48af-b204-78b60b265e76"
+# + id="n5Ov3ijlS4bo" executionInfo={"elapsed": 905, "status": "ok", "timestamp": 1602145598086, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} outputId="5690fafa-d593-48af-b204-78b60b265e76" colab={"base_uri": "https://localhost:8080/", "height": 36}
 np.allclose(X_centered, U.dot(S).dot(Vt))
 
 # + id="hl4dRNWSS4bs"
@@ -160,16 +160,16 @@ from sklearn.decomposition import PCA
 pca = PCA(n_components = 2)
 X2D = pca.fit_transform(X)
 
-# + colab={"base_uri": "https://localhost:8080/", "height": 111} executionInfo={"elapsed": 1479, "status": "ok", "timestamp": 1602145672308, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} id="WCP86vI2S4b-" outputId="e197268b-60a6-4464-86b6-769fc91e66ff"
+# + id="WCP86vI2S4b-" executionInfo={"elapsed": 1479, "status": "ok", "timestamp": 1602145672308, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} outputId="e197268b-60a6-4464-86b6-769fc91e66ff" colab={"base_uri": "https://localhost:8080/", "height": 111}
 X2D[:5]
 
-# + colab={"base_uri": "https://localhost:8080/", "height": 111} executionInfo={"elapsed": 1073, "status": "ok", "timestamp": 1602145674081, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} id="hPy5ZI26S4cC" outputId="d6193372-9e7a-4ce2-8d0f-603363cc4c3c"
+# + id="hPy5ZI26S4cC" executionInfo={"elapsed": 1073, "status": "ok", "timestamp": 1602145674081, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} outputId="d6193372-9e7a-4ce2-8d0f-603363cc4c3c" colab={"base_uri": "https://localhost:8080/", "height": 111}
 X2D_using_svd[:5] 
 
 # + [markdown] id="UiQBstaRS4cG"
 # Notice that running PCA multiple times on slightly different datasets may result in different results. In general the only difference is that some axes may be flipped. In this example, PCA using Scikit-Learn gives the same projection as the one given by the SVD approach, except both axes are flipped:
 
-# + colab={"base_uri": "https://localhost:8080/", "height": 36} executionInfo={"elapsed": 1006, "status": "ok", "timestamp": 1602145681831, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} id="mZXH4pQ8S4cI" outputId="85046c61-3bf0-4adf-d214-59c7ce1ec5ac"
+# + id="mZXH4pQ8S4cI" executionInfo={"elapsed": 1006, "status": "ok", "timestamp": 1602145681831, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} outputId="85046c61-3bf0-4adf-d214-59c7ce1ec5ac" colab={"base_uri": "https://localhost:8080/", "height": 36}
 np.allclose(X2D, -X2D_using_svd)
 
 # + [markdown] id="TSfYbTLtS4cN"
@@ -181,13 +181,13 @@ X3D_inv = pca.inverse_transform(X2D)   #다시 3차원으로 보내기
 # + [markdown] id="1gQTn0RvS4cR"
 # Of course, there was some loss of information during the projection step, so the recovered 3D points are not exactly equal to the original 3D points:
 
-# + colab={"base_uri": "https://localhost:8080/", "height": 36} executionInfo={"elapsed": 952, "status": "ok", "timestamp": 1602145695048, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} id="AwcNCaGyS4cS" outputId="0f6cd02d-5c6a-4d82-fd62-7aefc5f282e1"
+# + id="AwcNCaGyS4cS" executionInfo={"elapsed": 952, "status": "ok", "timestamp": 1602145695048, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} outputId="0f6cd02d-5c6a-4d82-fd62-7aefc5f282e1" colab={"base_uri": "https://localhost:8080/", "height": 36}
 np.allclose(X3D_inv, X)
 
 # + [markdown] id="3ZKjlXpaS4cX"
 # We can compute the reconstruction error:
 
-# + colab={"base_uri": "https://localhost:8080/", "height": 36} executionInfo={"elapsed": 925, "status": "ok", "timestamp": 1602145717789, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} id="XXFB7mtIS4cY" outputId="380cd6bf-7963-4561-b11f-ece9bcfe1cee"
+# + id="XXFB7mtIS4cY" executionInfo={"elapsed": 925, "status": "ok", "timestamp": 1602145717789, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} outputId="380cd6bf-7963-4561-b11f-ece9bcfe1cee" colab={"base_uri": "https://localhost:8080/", "height": 36}
 np.mean(np.sum(np.square(X3D_inv - X), axis=1)) #원래의 3차원과, 복원된 3차원은 약간의 오차가 발생한다. 
 
 # + [markdown] id="EnwEWL64S4cb"
@@ -199,19 +199,19 @@ X3D_inv_using_svd = X2D_using_svd.dot(Vt[:2, :]) #svd를 사용하여 3차원으
 # + [markdown] id="Mo7hpPzDS4cf"
 # The reconstructions from both methods are not identical because Scikit-Learn's `PCA` class automatically takes care of reversing the mean centering, but if we subtract the mean, we get the same reconstruction:
 
-# + colab={"base_uri": "https://localhost:8080/", "height": 36} executionInfo={"elapsed": 1331, "status": "ok", "timestamp": 1602145786473, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} id="93ecaMS0S4cg" outputId="ca17c5dd-8772-4fbd-f2fc-a81f8785b174"
+# + id="93ecaMS0S4cg" executionInfo={"elapsed": 1331, "status": "ok", "timestamp": 1602145786473, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} outputId="ca17c5dd-8772-4fbd-f2fc-a81f8785b174" colab={"base_uri": "https://localhost:8080/", "height": 36}
 np.allclose(X3D_inv_using_svd, X3D_inv - pca.mean_)
 
 # + [markdown] id="tVQI-JnaS4cj"
 # The `PCA` object gives access to the principal components that it computed:
 
-# + colab={"base_uri": "https://localhost:8080/", "height": 55} executionInfo={"elapsed": 906, "status": "ok", "timestamp": 1602145797859, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} id="84UeWFu3S4cj" outputId="3a610ee3-f874-485c-cae1-fa193fc336fb"
+# + id="84UeWFu3S4cj" executionInfo={"elapsed": 906, "status": "ok", "timestamp": 1602145797859, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} outputId="3a610ee3-f874-485c-cae1-fa193fc336fb" colab={"base_uri": "https://localhost:8080/", "height": 55}
 pca.components_ #어떤 pc가 생겼는지 살펴보기 
 
 # + [markdown] id="NWKIVnWQS4cm"
 # Compare to the first two principal components computed using the SVD method:
 
-# + colab={"base_uri": "https://localhost:8080/", "height": 55} executionInfo={"elapsed": 1616, "status": "ok", "timestamp": 1602145813241, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} id="9D9995QYS4cn" outputId="d190befd-74ea-433c-a15a-3035f6b93bbe"
+# + id="9D9995QYS4cn" executionInfo={"elapsed": 1616, "status": "ok", "timestamp": 1602145813241, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} outputId="d190befd-74ea-433c-a15a-3035f6b93bbe" colab={"base_uri": "https://localhost:8080/", "height": 55}
 Vt[:2] ##2개의 pc백터 생성. 
 
 # + [markdown] id="8ftekg4dS4cp"
@@ -220,7 +220,7 @@ Vt[:2] ##2개의 pc백터 생성.
 # + [markdown] id="OyPKwF_8S4cq"
 # Now let's look at the explained variance ratio:
 
-# + colab={"base_uri": "https://localhost:8080/", "height": 36} executionInfo={"elapsed": 751, "status": "ok", "timestamp": 1602145814746, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} id="lUHoSH0uS4cq" outputId="731f77a5-6d02-481a-893e-17c3a5537679"
+# + id="lUHoSH0uS4cq" executionInfo={"elapsed": 751, "status": "ok", "timestamp": 1602145814746, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} outputId="731f77a5-6d02-481a-893e-17c3a5537679" colab={"base_uri": "https://localhost:8080/", "height": 36}
 pca.explained_variance_ratio_ #2개의 변수가 0.98이상의 분산을 가짐. 
 
 # + [markdown] id="xIMo6PxYS4cu"
@@ -229,16 +229,16 @@ pca.explained_variance_ratio_ #2개의 변수가 0.98이상의 분산을 가짐.
 # + [markdown] id="ycr0H6NgS4cu"
 # By projecting down to 2D, we lost about 1.1% of the variance:
 
-# + colab={"base_uri": "https://localhost:8080/", "height": 36} executionInfo={"elapsed": 1196, "status": "ok", "timestamp": 1602145833635, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} id="mbbIJZpYS4cv" outputId="57a91341-eb7f-4cca-a784-55568899041d"
+# + id="mbbIJZpYS4cv" executionInfo={"elapsed": 1196, "status": "ok", "timestamp": 1602145833635, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} outputId="57a91341-eb7f-4cca-a784-55568899041d" colab={"base_uri": "https://localhost:8080/", "height": 36}
 1 - pca.explained_variance_ratio_.sum()
 
 # + [markdown] id="MaRaHteXS4cy"
 # Here is how to compute the explained variance ratio using the SVD approach (recall that `s` is the diagonal of the matrix `S`):
 
-# + colab={"base_uri": "https://localhost:8080/", "height": 36} executionInfo={"elapsed": 1537, "status": "ok", "timestamp": 1602145873590, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} id="OUJR9hiKVdNV" outputId="f0e14326-4184-4c9f-a1b6-37f2e0d6e164"
+# + id="OUJR9hiKVdNV" executionInfo={"elapsed": 1537, "status": "ok", "timestamp": 1602145873590, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} outputId="f0e14326-4184-4c9f-a1b6-37f2e0d6e164" colab={"base_uri": "https://localhost:8080/", "height": 36}
 s #s는 대각행렬을 갖는 벡터. 
 
-# + colab={"base_uri": "https://localhost:8080/", "height": 36} executionInfo={"elapsed": 1168, "status": "ok", "timestamp": 1602145837143, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} id="qkRxWzd6S4cy" outputId="dbd0c457-fc93-4d06-8e74-43df3d2a55dc"
+# + id="qkRxWzd6S4cy" executionInfo={"elapsed": 1168, "status": "ok", "timestamp": 1602145837143, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} outputId="dbd0c457-fc93-4d06-8e74-43df3d2a55dc" colab={"base_uri": "https://localhost:8080/", "height": 36}
 np.square(s) / np.square(s).sum() #각 pc별로 얼마만큼의 분산을 설명하는지 계산. 
 
 # + [markdown] id="YWVJkOUrS4c1"
@@ -280,7 +280,7 @@ z = (R[0, 2] * x1 + R[1, 2] * x2) / (1 - R[2, 2])
 # + [markdown] id="YJMQsnV2S4dD"
 # Plot the 3D dataset, the plane and the projections on that plane.
 
-# + colab={"base_uri": "https://localhost:8080/", "height": 302} executionInfo={"elapsed": 2353, "status": "ok", "timestamp": 1602145922941, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} id="8S5usACXS4dF" outputId="b37b9aaa-e9b6-4976-ecc8-b289ebc930cb"
+# + id="8S5usACXS4dF" executionInfo={"elapsed": 2353, "status": "ok", "timestamp": 1602145922941, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} outputId="b37b9aaa-e9b6-4976-ecc8-b289ebc930cb" colab={"base_uri": "https://localhost:8080/", "height": 302}
 from mpl_toolkits.mplot3d import Axes3D
 
 fig = plt.figure(figsize=(6, 3.8))
@@ -324,7 +324,7 @@ ax.set_zlim(axes[4:6])
 save_fig("dataset_3d_plot")
 plt.show()
 
-# + colab={"base_uri": "https://localhost:8080/", "height": 316} executionInfo={"elapsed": 1448, "status": "ok", "timestamp": 1602145927373, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} id="ErKTDe_AS4dL" outputId="57d22637-8704-4386-f528-bbdd1d82ee4f"
+# + id="ErKTDe_AS4dL" executionInfo={"elapsed": 1448, "status": "ok", "timestamp": 1602145927373, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}, "user_tz": -540} outputId="57d22637-8704-4386-f528-bbdd1d82ee4f" colab={"base_uri": "https://localhost:8080/", "height": 316}
 fig = plt.figure()
 ax = fig.add_subplot(111, aspect='equal')
 
