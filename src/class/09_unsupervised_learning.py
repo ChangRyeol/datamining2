@@ -32,10 +32,21 @@ from google.colab import drive # import drive from google colab
 ROOT = "/content/drive"     # default location for the drive
 print(ROOT)                 # print content of ROOT (Optional)
 
-drive.mount(ROOT)           # we mount the google drive at /content/drive
+drive.mount(ROOT)           #  we mount the google drive at /content/drive
 
-# + id="ea2epz1GZhY2"
+# + id="ea2epz1GZhY2" executionInfo={"status": "ok", "timestamp": 1603455661266, "user_tz": -540, "elapsed": 1538, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="62f318da-5ab5-4ef3-a528-ff79beeefa63" colab={"base_uri": "https://localhost:8080/", "height": 36}
 # %cd 'drive/My Drive/Colab Notebooks/datamining2/src/class/' 
+
+# + id="UcNwduDEZ9iu" executionInfo={"status": "ok", "timestamp": 1603455680186, "user_tz": -540, "elapsed": 7842, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="3771354c-1566-4227-80b6-e8a828f1addd" colab={"base_uri": "https://localhost:8080/", "height": 467}
+pip install jupytext #jupytext 설치 
+
+# + id="PRJ8ITj8aAJN" executionInfo={"status": "ok", "timestamp": 1603455692679, "user_tz": -540, "elapsed": 3307, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="a4d7b97c-dc52-4978-d06b-282cd8a7e941" colab={"base_uri": "https://localhost:8080/", "height": 92}
+## Pair a notebook to a light script
+# !jupytext --set-formats ipynb,py:light 09_unsupervised_learning.ipynb  
+
+# + id="A1R60G3PaEWe" executionInfo={"status": "ok", "timestamp": 1603455706364, "user_tz": -540, "elapsed": 2503, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="d2ed06ad-ae8b-483a-9156-c401e9f2f165" colab={"base_uri": "https://localhost:8080/", "height": 92}
+# Sync the two representations
+# !jupytext --sync 09_unsupervised_learning.ipynb
 
 # + [markdown] id="p1ahZ84g-Xcn"
 # # Setup
@@ -43,7 +54,7 @@ drive.mount(ROOT)           # we mount the google drive at /content/drive
 # + [markdown] id="eMGE3hJ0-Xco"
 # First, let's import a few common modules, ensure MatplotLib plots figures inline and prepare a function to save the figures. We also check that Python 3.5 or later is installed (although Python 2.x may work, it is deprecated so we strongly recommend you use Python 3 instead), as well as Scikit-Learn ≥0.20.
 
-# + id="_QbICwgS-Xcp"
+# + id="_QbICwgS-Xcp" executionInfo={"status": "ok", "timestamp": 1603457227645, "user_tz": -540, "elapsed": 1638, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 # Python ≥3.5 is required
 import sys
 assert sys.version_info >= (3, 5)
@@ -90,16 +101,16 @@ warnings.filterwarnings(action="ignore", message="^internal gelsd")
 # + [markdown] id="Xg-QV8Qx-Xcv"
 # ## Introduction – Classification _vs_ Clustering
 
-# + id="DHehewTu-Xcw"
+# + id="DHehewTu-Xcw" executionInfo={"status": "ok", "timestamp": 1603457234481, "user_tz": -540, "elapsed": 1059, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 from sklearn.datasets import load_iris
 
-# + id="i-2YQNZv-Xc0" outputId="080d1352-da91-4e2a-aa4d-3e04f6a970bd"
+# + id="i-2YQNZv-Xc0" executionInfo={"status": "ok", "timestamp": 1603457234484, "user_tz": -540, "elapsed": 623, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="0f761404-13e9-4501-d0c4-500169b0b60f" colab={"base_uri": "https://localhost:8080/", "height": 36}
 data = load_iris()
 X = data.data
 y = data.target
 data.target_names
 
-# + id="A0IRUJ9X-Xc6" outputId="e0e60f16-2d0c-4822-b627-8d9015181655"
+# + id="A0IRUJ9X-Xc6" executionInfo={"status": "ok", "timestamp": 1603457243589, "user_tz": -540, "elapsed": 1810, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="fae5ebb2-fce6-4eb2-d976-711cd7108f10" colab={"base_uri": "https://localhost:8080/", "height": 280}
 plt.figure(figsize=(9, 3.5))
 
 plt.subplot(121)
@@ -121,15 +132,18 @@ plt.show()
 # + [markdown] id="zmHUxk5M-Xc-"
 # A Gaussian mixture model (explained below) can actually separate these clusters pretty well (using all 4 features: petal length & width, and sepal length & width).
 
-# + id="TIsvIv6Z-Xc-"
+# + id="TIsvIv6Z-Xc-" executionInfo={"status": "ok", "timestamp": 1603457260131, "user_tz": -540, "elapsed": 1518, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+####나중에 배울거라 지금은 그냥 넘어가자 
+
+
 from sklearn.mixture import GaussianMixture
 
-# + id="Eq35HVWP-XdC"
+# + id="Eq35HVWP-XdC" executionInfo={"status": "ok", "timestamp": 1603457260132, "user_tz": -540, "elapsed": 1048, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 y_pred = GaussianMixture(n_components=3, random_state=42).fit(X).predict(X)
 mapping = np.array([2, 0, 1])
 y_pred = np.array([mapping[cluster_id] for cluster_id in y_pred])
 
-# + id="pQSzpkFh-XdH" outputId="80252b81-d51e-49d7-c68e-f3d3ee1b5533"
+# + id="pQSzpkFh-XdH" executionInfo={"status": "ok", "timestamp": 1603457261385, "user_tz": -540, "elapsed": 1970, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="7d4a4778-ee63-45f7-9f2f-01241f9a6210" colab={"base_uri": "https://localhost:8080/", "height": 286}
 plt.plot(X[y_pred==0, 2], X[y_pred==0, 3], "yo", label="Cluster 1")
 plt.plot(X[y_pred==1, 2], X[y_pred==1, 3], "bs", label="Cluster 2")
 plt.plot(X[y_pred==2, 2], X[y_pred==2, 3], "g^", label="Cluster 3")
@@ -138,10 +152,10 @@ plt.ylabel("Petal width", fontsize=14)
 plt.legend(loc="upper left", fontsize=12)
 plt.show()
 
-# + id="RWZ9DCTT-XdL" outputId="c34d2426-6b74-48d2-9b4c-5cf5f4a58337"
+# + id="RWZ9DCTT-XdL" executionInfo={"status": "ok", "timestamp": 1603457261389, "user_tz": -540, "elapsed": 1746, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="00e59d97-b2dd-4e71-9669-0f18078ee426" colab={"base_uri": "https://localhost:8080/", "height": 36}
 np.sum(y_pred==y)
 
-# + id="zYhEQsRo-XdO" outputId="40cdbd2a-5e8b-48f5-c600-42e1493bde79"
+# + id="zYhEQsRo-XdO" executionInfo={"status": "ok", "timestamp": 1603457261391, "user_tz": -540, "elapsed": 1580, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="245c22ab-de46-426d-98ec-aac030f50b5d" colab={"base_uri": "https://localhost:8080/", "height": 36}
 np.sum(y_pred==y) / len(y_pred)
 
 # + [markdown] id="2n--zFC2-XdR"
@@ -150,10 +164,12 @@ np.sum(y_pred==y) / len(y_pred)
 # + [markdown] id="HCaLMWbX-XdS"
 # Let's start by generating some blobs:
 
-# + id="2Z2wjKSY-XdT"
+# + id="2Z2wjKSY-XdT" executionInfo={"status": "ok", "timestamp": 1603457524937, "user_tz": -540, "elapsed": 1117, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+
 from sklearn.datasets import make_blobs
 
-# + id="pOb4c5Bi-XdX"
+# + id="pOb4c5Bi-XdX" executionInfo={"status": "ok", "timestamp": 1603457565559, "user_tz": -540, "elapsed": 1238, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+#5개의 센터를 만들어서 데이터를 만듦. 
 blob_centers = np.array(
     [[ 0.2,  2.3],
      [-1.5 ,  2.3],
@@ -162,7 +178,7 @@ blob_centers = np.array(
      [-2.8,  1.3]])
 blob_std = np.array([0.4, 0.3, 0.1, 0.1, 0.1])
 
-# + id="7FYWZGMs-Xdc"
+# + id="7FYWZGMs-Xdc" executionInfo={"status": "ok", "timestamp": 1603457566191, "user_tz": -540, "elapsed": 1813, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 X, y = make_blobs(n_samples=2000, centers=blob_centers,
                   cluster_std=blob_std, random_state=7)
 
@@ -170,14 +186,14 @@ X, y = make_blobs(n_samples=2000, centers=blob_centers,
 # + [markdown] id="R6d4fR0D-Xdg"
 # Now let's plot them:
 
-# + id="9WP1cnAr-Xdg"
+# + id="9WP1cnAr-Xdg" executionInfo={"status": "ok", "timestamp": 1603457566193, "user_tz": -540, "elapsed": 1764, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 def plot_clusters(X, y=None):
     plt.scatter(X[:, 0], X[:, 1], c=y, s=1)
     plt.xlabel("$x_1$", fontsize=14)
     plt.ylabel("$x_2$", fontsize=14, rotation=0)
 
 
-# + id="g1rZDtHd-Xdl" outputId="2542b6f6-b573-4759-8554-b9316e6e2af3"
+# + id="g1rZDtHd-Xdl" executionInfo={"status": "ok", "timestamp": 1603457566812, "user_tz": -540, "elapsed": 2354, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="906e70f0-3bbb-4baa-9501-15d96b44489a" colab={"base_uri": "https://localhost:8080/", "height": 316}
 plt.figure(figsize=(8, 4))
 plot_clusters(X)
 save_fig("blobs_plot")
@@ -189,39 +205,41 @@ plt.show()
 # + [markdown] id="hy5UWaRg-Xdp"
 # Let's train a K-Means clusterer on this dataset. It will try to find each blob's center and assign each instance to the closest blob:
 
-# + id="Vk2_bgF--Xdq"
+# + id="Vk2_bgF--Xdq" executionInfo={"status": "ok", "timestamp": 1603457570994, "user_tz": -540, "elapsed": 968, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 from sklearn.cluster import KMeans
 
-# + id="Tdx6Uf1p-Xdu"
+# + id="Tdx6Uf1p-Xdu" executionInfo={"status": "ok", "timestamp": 1603457752573, "user_tz": -540, "elapsed": 958, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+#k는 클러스터 갯수. 최초 포인트가 랜덤하게 결정되기 때문에 매번 결과가 달라진다. 따라서 random_state를 지정해주자. 
 k = 5
-kmeans = KMeans(n_clusters=k, random_state=42)
+kmeans = KMeans(n_clusters=k, random_state=42)  #n_init 파라미터가 크면 그래도 결과가 매번 달라지는 편차가 좀 줄어듬. 
+#n_init이 10이면 10번을 클러스터링 해서 그 평균으로 최초 지점을 잡으라는 의미. 1로 지정하면 결과가 많이 달라짐. 
 y_pred = kmeans.fit_predict(X)
 
 # + [markdown] id="7LpaV5iC-Xdz"
 # Each instance was assigned to one of the 5 clusters:
 
-# + id="xbZttWYw-Xd0" outputId="cd4702f8-ddf9-4c3c-d699-7b5c7c671222"
+# + id="xbZttWYw-Xd0" executionInfo={"status": "ok", "timestamp": 1603457757421, "user_tz": -540, "elapsed": 903, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="004e439e-d26d-4677-b492-30a334990a37" colab={"base_uri": "https://localhost:8080/", "height": 35}
 y_pred
 
-# + id="5nKlaOgI-Xd3" outputId="e199e930-f5e6-4332-c49a-031b51ec3e35"
+# + id="5nKlaOgI-Xd3" executionInfo={"status": "ok", "timestamp": 1603457757872, "user_tz": -540, "elapsed": 562, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="d971e015-eac7-47a4-b8a8-b73c3f0ba570" colab={"base_uri": "https://localhost:8080/", "height": 36}
 y_pred is kmeans.labels_
 
 # + [markdown] id="30u_M7Ta-Xd-"
 # And the following 5 _centroids_ (i.e., cluster centers) were estimated:
 
-# + id="n__I_37Y-XeA" outputId="8e00230c-683f-4030-8dfb-46eedc892bd7"
+# + id="n__I_37Y-XeA" executionInfo={"status": "ok", "timestamp": 1603457759412, "user_tz": -540, "elapsed": 629, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="022b3291-4f09-4957-905c-ad33fc3451bb" colab={"base_uri": "https://localhost:8080/", "height": 111}
 kmeans.cluster_centers_
 
 # + [markdown] id="t6-J2bxz-XeF"
 # Note that the `KMeans` instance preserves the labels of the instances it was trained on. Somewhat confusingly, in this context, the _label_ of an instance is the index of the cluster that instance gets assigned to:
 
-# + id="eHe0XBWp-XeG" outputId="89dbea10-a9d7-4fbf-8825-56eaf432727e"
+# + id="eHe0XBWp-XeG" executionInfo={"status": "ok", "timestamp": 1603457760499, "user_tz": -540, "elapsed": 830, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="4d2976c8-5991-46d5-b96a-90e097a74bc9" colab={"base_uri": "https://localhost:8080/", "height": 36}
 kmeans.labels_
 
 # + [markdown] id="X7kkG564-XeK"
 # Of course, we can predict the labels of new instances:
 
-# + id="yvYz91cp-XeL" outputId="58245ac4-ef3b-430a-dd2d-e6fcd63de865"
+# + id="yvYz91cp-XeL" executionInfo={"status": "ok", "timestamp": 1603457762767, "user_tz": -540, "elapsed": 1465, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="386a2d49-3993-4953-a52b-6c67440730cc" colab={"base_uri": "https://localhost:8080/", "height": 35}
 X_new = np.array([[0, 2], [3, 2], [-3, 3], [-3, 2.5]])
 kmeans.predict(X_new)
 
@@ -232,7 +250,7 @@ kmeans.predict(X_new)
 # + [markdown] id="HagMbsue-XeT"
 # Let's plot the model's decision boundaries. This gives us a _Voronoi diagram_:
 
-# + id="SUF41fMz-XeT"
+# + id="SUF41fMz-XeT" executionInfo={"status": "ok", "timestamp": 1603457765191, "user_tz": -540, "elapsed": 1066, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 def plot_data(X):
     plt.plot(X[:, 0], X[:, 1], 'k.', markersize=2)
 
@@ -273,7 +291,7 @@ def plot_decision_boundaries(clusterer, X, resolution=1000, show_centroids=True,
         plt.tick_params(labelleft=False)
 
 
-# + id="uyX-rnPr-Xea" outputId="b546adbd-7d0c-4bf7-a85b-55129e5ba81c"
+# + id="uyX-rnPr-Xea" executionInfo={"status": "ok", "timestamp": 1603457766994, "user_tz": -540, "elapsed": 2425, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="23aabe78-a605-4927-e307-207d105d0c25" colab={"base_uri": "https://localhost:8080/", "height": 316}
 plt.figure(figsize=(8, 4))
 plot_decision_boundaries(kmeans, X)
 save_fig("voronoi_plot")
@@ -288,13 +306,13 @@ plt.show()
 # + [markdown] id="FWu98SRl-Xei"
 # Rather than arbitrarily choosing the closest cluster for each instance, which is called _hard clustering_, it might be better measure the distance of each instance to all 5 centroids. This is what the `transform()` method does:
 
-# + id="nKKfVAeN-Xej" outputId="4cce144a-61c0-41c9-867e-738e2a15137a"
+# + id="nKKfVAeN-Xej" executionInfo={"status": "ok", "timestamp": 1603458140012, "user_tz": -540, "elapsed": 1172, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="877a9170-62a1-4d4e-aff9-3e31c9363eb6" colab={"base_uri": "https://localhost:8080/", "height": 92}
 kmeans.transform(X_new)
 
 # + [markdown] id="Wbb1YFGj-Xen"
 # You can verify that this is indeed the Euclidian distance between each instance and each centroid:
 
-# + id="DLsueO22-Xeo" outputId="879ff539-4a07-43ae-ec7d-97e30d38b5e5"
+# + id="DLsueO22-Xeo" executionInfo={"status": "ok", "timestamp": 1603458142364, "user_tz": -540, "elapsed": 853, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="a82a677a-171d-4a96-e70b-37825b89e2d1" colab={"base_uri": "https://localhost:8080/", "height": 92}
 np.linalg.norm(np.tile(X_new, (1, k)).reshape(-1, k, 2) - kmeans.cluster_centers_, axis=2)
 
 # + [markdown] id="eu07Ll12-Xet"
@@ -313,7 +331,7 @@ np.linalg.norm(np.tile(X_new, (1, k)).reshape(-1, k, 2) - kmeans.cluster_centers
 # + [markdown] id="SXO-Z1vu-Xex"
 # Let's run the K-Means algorithm for 1, 2 and 3 iterations, to see how the centroids move around:
 
-# + id="vRlO5DUh-Xey" outputId="984684d5-18ac-48de-c647-e23f8d939b2f"
+# + id="vRlO5DUh-Xey" executionInfo={"status": "ok", "timestamp": 1603458149402, "user_tz": -540, "elapsed": 1492, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="90b21d24-0f89-485c-b074-c66f9d806146" colab={"base_uri": "https://localhost:8080/", "height": 71}
 kmeans_iter1 = KMeans(n_clusters=5, init="random", n_init=1,
                      algorithm="full", max_iter=1, random_state=1)
 kmeans_iter2 = KMeans(n_clusters=5, init="random", n_init=1,
@@ -327,7 +345,7 @@ kmeans_iter3.fit(X)
 # + [markdown] id="3F75q5kM-Xe5"
 # And let's plot this:
 
-# + id="FaK5UKph-Xe6" outputId="4a1bba1a-7aed-4f66-dc8b-f4922c3879d2"
+# + id="FaK5UKph-Xe6" executionInfo={"status": "ok", "timestamp": 1603458155946, "user_tz": -540, "elapsed": 6729, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="2905e1e3-e77b-49c4-db12-9dff1ccd3328" colab={"base_uri": "https://localhost:8080/", "height": 604}
 plt.figure(figsize=(10, 8))
 
 plt.subplot(321)
@@ -1028,40 +1046,40 @@ np.mean(y_train_partially_propagated == y_train[partially_propagated])
 # + [markdown] id="dqy9l9Yy-Xlj"
 # ## DBSCAN
 
-# + id="97L2VF79-Xlj"
+# + id="97L2VF79-Xlj" executionInfo={"status": "ok", "timestamp": 1603459007760, "user_tz": -540, "elapsed": 2290, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 from sklearn.datasets import make_moons
 
-# + id="l2bgJM3C-Xlm"
+# + id="l2bgJM3C-Xlm" executionInfo={"status": "ok", "timestamp": 1603459007764, "user_tz": -540, "elapsed": 1823, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 X, y = make_moons(n_samples=1000, noise=0.05, random_state=42)
 
-# + id="OOtRY6b_-Xlo"
+# + id="OOtRY6b_-Xlo" executionInfo={"status": "ok", "timestamp": 1603459007774, "user_tz": -540, "elapsed": 1500, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 from sklearn.cluster import DBSCAN
 
-# + id="c2ZK2pcd-Xlr" outputId="88db1d31-7d3a-42d3-f3df-d5020c745134"
-dbscan = DBSCAN(eps=0.05, min_samples=5)
+# + id="c2ZK2pcd-Xlr" executionInfo={"status": "ok", "timestamp": 1603459007777, "user_tz": -540, "elapsed": 1263, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="3b568189-0726-4577-8387-66ce3cb4ca45" colab={"base_uri": "https://localhost:8080/", "height": 55}
+dbscan = DBSCAN(eps=0.05, min_samples=5)   ########### 엡실론 0.05 
 dbscan.fit(X)
 
-# + id="PMyxqtE--Xl0" outputId="efd29c47-572b-4e94-e319-f6a4d7fa98f9"
-dbscan.labels_[:10]
+# + id="PMyxqtE--Xl0" executionInfo={"status": "ok", "timestamp": 1603459051605, "user_tz": -540, "elapsed": 929, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="1809031a-20fa-4276-8964-64fd8834a3c4" colab={"base_uri": "https://localhost:8080/", "height": 35}
+dbscan.labels_[:10]  ##-1이 anomaly 
 
-# + id="Z1dda0cd-Xl3" outputId="55623c06-a322-4230-9046-d65d31936f85"
+# + id="Z1dda0cd-Xl3" executionInfo={"status": "ok", "timestamp": 1603459052007, "user_tz": -540, "elapsed": 605, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="d93acc0a-3c79-45aa-a235-ed85b6b0751d" colab={"base_uri": "https://localhost:8080/", "height": 35}
 len(dbscan.core_sample_indices_)
 
-# + id="kLdQ_4uZ-Xl5" outputId="0b66f13f-c410-4c05-e9a1-366e739bcf55"
+# + id="kLdQ_4uZ-Xl5" executionInfo={"status": "ok", "timestamp": 1603459054554, "user_tz": -540, "elapsed": 1150, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="514b47b1-ea8a-4ef7-e4b4-b62e8a58e31c" colab={"base_uri": "https://localhost:8080/", "height": 35}
 dbscan.core_sample_indices_[:10]
 
-# + id="PldL30fC-Xl7" outputId="83718690-d947-4015-8cd5-6eb68b405470"
+# + id="PldL30fC-Xl7" executionInfo={"status": "ok", "timestamp": 1603459054557, "user_tz": -540, "elapsed": 668, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="46ea659a-4db8-48ec-a606-169cd0d6e5e8" colab={"base_uri": "https://localhost:8080/", "height": 73}
 dbscan.components_[:3]
 
-# + id="uzd5auIR-Xl9" outputId="569d78b7-031e-4285-83af-bab267f2e1ba"
+# + id="uzd5auIR-Xl9" executionInfo={"status": "ok", "timestamp": 1603459056785, "user_tz": -540, "elapsed": 1435, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="ec50a98e-2bdd-4409-d314-73e75ac400c9" colab={"base_uri": "https://localhost:8080/", "height": 36}
 np.unique(dbscan.labels_)
 
-# + id="yDjHPzyC-XmB" outputId="75849900-0995-469a-d4a1-c81b7c9f1821"
-dbscan2 = DBSCAN(eps=0.2)
+# + id="yDjHPzyC-XmB" executionInfo={"status": "ok", "timestamp": 1603459059874, "user_tz": -540, "elapsed": 1068, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="1fc835dc-18f6-4c03-f69f-dba934ac21c1" colab={"base_uri": "https://localhost:8080/", "height": 55}
+dbscan2 = DBSCAN(eps=0.2) #3####################3 입실론 0.2 
 dbscan2.fit(X)
 
 
-# + id="lOlxYQVM-XmE"
+# + id="lOlxYQVM-XmE" executionInfo={"status": "ok", "timestamp": 1603459169058, "user_tz": -540, "elapsed": 1707, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 def plot_dbscan(dbscan, X, size, show_xlabels=True, show_ylabels=True):
     core_mask = np.zeros_like(dbscan.labels_, dtype=bool)
     core_mask[dbscan.core_sample_indices_] = True
@@ -1089,7 +1107,7 @@ def plot_dbscan(dbscan, X, size, show_xlabels=True, show_ylabels=True):
     plt.title("eps={:.2f}, min_samples={}".format(dbscan.eps, dbscan.min_samples), fontsize=14)
 
 
-# + id="GHKpMGKK-XmK" outputId="f8cf2e42-e839-46d9-a2a2-59637406444d"
+# + id="GHKpMGKK-XmK" executionInfo={"status": "ok", "timestamp": 1603459173901, "user_tz": -540, "elapsed": 3690, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="bb1ea7e1-c7dc-42f9-86b1-ff9ca80f9faf" colab={"base_uri": "https://localhost:8080/", "height": 258}
 plt.figure(figsize=(9, 3.2))
 
 plt.subplot(121)
@@ -1100,37 +1118,43 @@ plot_dbscan(dbscan2, X, size=600, show_ylabels=False)
 
 save_fig("dbscan_plot")
 plt.show()
+### 파라미터 설정이 특히 중요하다 !!! 
 
-
-# + id="u5h8ZLQy-XmO"
+# + id="u5h8ZLQy-XmO" executionInfo={"status": "ok", "timestamp": 1603459245044, "user_tz": -540, "elapsed": 12834, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 dbscan = dbscan2
 
-# + id="Qqr0CSLD-XmV"
+# + [markdown] id="8sVNuOPEnkHX"
+# dbscan은 새로운 데이터에 대해서 predict가 안된다. knn으로 판단해서 추가적으로 분류에 적합시켜서 prediction을 실시한다. 
+
+# + id="Qqr0CSLD-XmV" executionInfo={"status": "ok", "timestamp": 1603459299524, "user_tz": -540, "elapsed": 1079, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 from sklearn.neighbors import KNeighborsClassifier
 
-# + id="xcbbkhq8-XmY" outputId="3d319c29-0b1c-40ad-b03c-ceb072cc966a"
+# + id="xcbbkhq8-XmY" executionInfo={"status": "ok", "timestamp": 1603459300044, "user_tz": -540, "elapsed": 1219, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="61e2eb16-47b3-4325-b30f-954613e60869" colab={"base_uri": "https://localhost:8080/", "height": 73}
 knn = KNeighborsClassifier(n_neighbors=50)
 knn.fit(dbscan.components_, dbscan.labels_[dbscan.core_sample_indices_])
 
-# + id="-0iGOhQF-Xme" outputId="7d0b7b1b-a988-4a3e-cb4a-3fba321a3ba3"
+# + id="-0iGOhQF-Xme" executionInfo={"status": "ok", "timestamp": 1603459302308, "user_tz": -540, "elapsed": 921, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="bd465c67-f185-4bb8-ef2e-b2e2d91ee86c" colab={"base_uri": "https://localhost:8080/", "height": 36}
 X_new = np.array([[-0.5, 0], [0, 0.5], [1, -0.1], [2, 1]])
 knn.predict(X_new)
 
-# + id="LwoTVeEj-Xmj" outputId="7f1a9134-63b2-4dfb-9c73-b158b0836e66"
+# + id="LwoTVeEj-Xmj" executionInfo={"status": "ok", "timestamp": 1603459304323, "user_tz": -540, "elapsed": 790, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="3697dedd-237c-4691-9d03-3d9975da529c" colab={"base_uri": "https://localhost:8080/", "height": 92}
 knn.predict_proba(X_new)
 
-# + id="nExD4LZg-Xmm" outputId="84385410-be7c-4acc-fae0-8dae3b63a531"
+# + id="nExD4LZg-Xmm" executionInfo={"status": "ok", "timestamp": 1603459335980, "user_tz": -540, "elapsed": 32054, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="659b797e-23af-405b-ad9f-1a824b687b86" colab={"base_uri": "https://localhost:8080/", "height": 244}
 plt.figure(figsize=(6, 3))
 plot_decision_boundaries(knn, X, show_centroids=False)
 plt.scatter(X_new[:, 0], X_new[:, 1], c="b", marker="+", s=200, zorder=10)
 save_fig("cluster_classification_plot")
 plt.show()
 
-# + id="8yj1HMJB-Xmo" outputId="739eb227-4c84-43eb-979a-4bd73a3ede70"
+# + id="8yj1HMJB-Xmo" executionInfo={"status": "ok", "timestamp": 1603459335983, "user_tz": -540, "elapsed": 31894, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="ce94ca68-fa2d-47dd-ee0e-ead909eb4531" colab={"base_uri": "https://localhost:8080/", "height": 35}
 y_dist, y_pred_idx = knn.kneighbors(X_new, n_neighbors=1)
 y_pred = dbscan.labels_[dbscan.core_sample_indices_][y_pred_idx]
 y_pred[y_dist > 0.2] = -1
 y_pred.ravel()
+
+# + [markdown] id="oj3UJl8Bn782"
+# other clustering algorithms는 안함. 
 
 # + [markdown] id="zvYA-jDG-Xmp"
 # ## Other Clustering Algorithms
@@ -1208,65 +1232,65 @@ agg.children_
 # + [markdown] id="3q5IjG1E-XnO"
 # # Gaussian Mixtures
 
-# + id="VVeE8sF5-XnW"
-X1, y1 = make_blobs(n_samples=1000, centers=((4, -4), (0, 0)), random_state=42)
+# + id="VVeE8sF5-XnW" executionInfo={"status": "ok", "timestamp": 1603460044245, "user_tz": -540, "elapsed": 1014, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
+X1, y1 = make_blobs(n_samples=1000, centers=((4, -4), (0, 0)), random_state=42) # 두개의 센터로 blobs생성 
 X1 = X1.dot(np.array([[0.374, 0.95], [0.732, 0.598]]))
 X2, y2 = make_blobs(n_samples=250, centers=1, random_state=42)
-X2 = X2 + [6, -8]
+X2 = X2 + [6, -8]  
 X = np.r_[X1, X2]
 y = np.r_[y1, y2]
 
 # + [markdown] id="f9edNnPw-XnY"
 # Let's train a Gaussian mixture model on the previous dataset:
 
-# + id="522vdTqn-XnZ"
+# + id="522vdTqn-XnZ" executionInfo={"status": "ok", "timestamp": 1603460046399, "user_tz": -540, "elapsed": 1980, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 from sklearn.mixture import GaussianMixture
 
-# + id="XnJWX-bq-Xnb" outputId="bed60e12-ef49-45a0-9aa7-657109d0d30f"
-gm = GaussianMixture(n_components=3, n_init=10, random_state=42)
+# + id="XnJWX-bq-Xnb" executionInfo={"status": "ok", "timestamp": 1603460055484, "user_tz": -540, "elapsed": 914, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="2ca5e39b-cb94-4a11-ddac-ce0edfaaecdb" colab={"base_uri": "https://localhost:8080/", "height": 111}
+gm = GaussianMixture(n_components=3, n_init=10, random_state=42) #3개의 가우시안 믹스쳐 
 gm.fit(X)
 
 # + [markdown] id="JsyQDv5g-Xnc"
 # Let's look at the parameters that the EM algorithm estimated:
 
-# + id="uTW7slOi-Xnd" outputId="393b66aa-7b6b-424b-95a0-1145ff927201"
-gm.weights_
+# + id="uTW7slOi-Xnd" executionInfo={"status": "ok", "timestamp": 1603460080683, "user_tz": -540, "elapsed": 1319, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="bc0cf16d-fe7e-40e0-bd54-3a23004d3edc" colab={"base_uri": "https://localhost:8080/", "height": 35}
+gm.weights_ #각 가우시안 모델의 weight 
 
-# + id="2MIiDLeI-Xnf" outputId="a27a255b-dbe1-4900-c69b-66f33121b226"
-gm.means_
+# + id="2MIiDLeI-Xnf" executionInfo={"status": "ok", "timestamp": 1603460096736, "user_tz": -540, "elapsed": 1127, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="e50f98b2-a3fb-4670-99e5-a10f7a2099a6" colab={"base_uri": "https://localhost:8080/", "height": 71}
+gm.means_ #각 가우시안 분포의 평균  
 
-# + id="lYA0WVFY-Xnl" outputId="9602bc3a-6657-4ce4-f1c4-7fffe65df2d3"
-gm.covariances_
+# + id="lYA0WVFY-Xnl" executionInfo={"status": "ok", "timestamp": 1603460084040, "user_tz": -540, "elapsed": 900, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="b9847f25-6181-4519-c559-6e01e431e7eb" colab={"base_uri": "https://localhost:8080/", "height": 161}
+gm.covariances_ 
 
 # + [markdown] id="KFI_FfBb-Xno"
 # Did the algorithm actually converge?
 
-# + id="_Dj7qtyp-Xno" outputId="055a754f-9daa-4459-ae1a-72cc89ddde3e"
+# + id="_Dj7qtyp-Xno" executionInfo={"status": "ok", "timestamp": 1603460110604, "user_tz": -540, "elapsed": 1018, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="7cf971d4-396b-4541-a1fb-cd7d69ca743a" colab={"base_uri": "https://localhost:8080/", "height": 35}
 gm.converged_
 
 # + [markdown] id="TsdU53uC-Xnq"
 # Yes, good. How many iterations did it take?
 
-# + id="NZLqrHLm-Xnq" outputId="2360e73b-321f-43e8-932e-3d3d5998addd"
-gm.n_iter_
+# + id="NZLqrHLm-Xnq" executionInfo={"status": "ok", "timestamp": 1603460111014, "user_tz": -540, "elapsed": 627, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="dff2b0f1-ae53-4c9b-fc8c-c24f7252a9a0" colab={"base_uri": "https://localhost:8080/", "height": 36}
+gm.n_iter_ #모형이 수렴할때까지의 이터레이션 수 
 
 # + [markdown] id="Nhw4x2m4-Xnr"
 # You can now use the model to predict which cluster each instance belongs to (hard clustering) or the probabilities that it came from each cluster. For this, just use `predict()` method or the `predict_proba()` method:
 
-# + id="kiit4Jb3-Xns" outputId="48290fbf-894b-4a1e-a0b7-97022654a79d"
+# + id="kiit4Jb3-Xns" executionInfo={"status": "ok", "timestamp": 1603460172020, "user_tz": -540, "elapsed": 930, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="fb9d5c4c-5fc0-446b-9d02-3138a1c68a97" colab={"base_uri": "https://localhost:8080/", "height": 36}
 gm.predict(X)
 
-# + id="_s_u4ETr-Xnu" outputId="1dddf6dc-5008-419f-bc15-c6cb86999f4a"
+# + id="_s_u4ETr-Xnu" executionInfo={"status": "ok", "timestamp": 1603460179816, "user_tz": -540, "elapsed": 552, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="d962aba8-d87a-41b2-8683-74435944dc7b" colab={"base_uri": "https://localhost:8080/", "height": 148}
 gm.predict_proba(X)
 
 # + [markdown] id="cSGSItRM-Xnx"
 # This is a generative model, so you can sample new instances from it (and get their labels):
 
-# + id="EKtzNqso-Xnx" outputId="5124bc85-7a5c-4c40-a323-960311ab21dd"
-X_new, y_new = gm.sample(6)
+# + id="EKtzNqso-Xnx" executionInfo={"status": "ok", "timestamp": 1603460200476, "user_tz": -540, "elapsed": 1151, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="909a7961-071b-41e2-b9d3-a7ba1b8de88c" colab={"base_uri": "https://localhost:8080/", "height": 129}
+X_new, y_new = gm.sample(6) #가우시안 믹스쳐에서 sample를 새로 뽑아보기 
 X_new
 
-# + id="xGbu4aaK-Xn0" outputId="d7da66fe-be10-479d-fa8d-0fb3a3dcdcb1"
+# + id="xGbu4aaK-Xn0" executionInfo={"status": "ok", "timestamp": 1603460201712, "user_tz": -540, "elapsed": 555, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="9be6a675-3f55-427b-d225-f2dfd3da439b" colab={"base_uri": "https://localhost:8080/", "height": 36}
 y_new
 
 # + [markdown] id="DDhg_Q5g-Xn4"
@@ -1275,13 +1299,13 @@ y_new
 # + [markdown] id="6kNyX4ce-Xn4"
 # You can also estimate the log of the _probability density function_ (PDF) at any location using the `score_samples()` method:
 
-# + id="J6QW29tb-Xn4" outputId="a54e2595-b6c1-4644-bc44-196b2fdef4bb"
+# + id="J6QW29tb-Xn4" executionInfo={"status": "ok", "timestamp": 1603460203684, "user_tz": -540, "elapsed": 1098, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="346e5603-2ab9-4204-a54a-bd504f798f29" colab={"base_uri": "https://localhost:8080/", "height": 55}
 gm.score_samples(X)
 
 # + [markdown] id="PL3ufZQq-Xn5"
 # Let's check that the PDF integrates to 1 over the whole space. We just take a large square around the clusters, and chop it into a grid of tiny squares, then we compute the approximate probability that the instances will be generated in each tiny square (by multiplying the PDF at one corner of the tiny square by the area of the square), and finally summing all these probabilities). The result is very close to 1:
 
-# + id="xiyRhcxl-Xn6" outputId="e8843119-2e1c-40cf-9dc0-5a9ada009cea"
+# + id="xiyRhcxl-Xn6" executionInfo={"status": "ok", "timestamp": 1603460208117, "user_tz": -540, "elapsed": 2229, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="cd589b51-370c-4280-a481-f55046903e07" colab={"base_uri": "https://localhost:8080/", "height": 35}
 resolution = 100
 grid = np.arange(-10, 10, 1 / resolution)
 xx, yy = np.meshgrid(grid, grid)
@@ -1294,7 +1318,7 @@ pdf_probas.sum()
 # + [markdown] id="NOm1Go5q-Xn7"
 # Now let's plot the resulting decision boundaries (dashed lines) and density contours:
 
-# + id="MQkN_2q9-Xn8"
+# + id="MQkN_2q9-Xn8" executionInfo={"status": "ok", "timestamp": 1603460208651, "user_tz": -540, "elapsed": 747, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 from matplotlib.colors import LogNorm
 
 def plot_gaussian_mixture(clusterer, X, resolution=1000, show_ylabels=True):
@@ -1328,7 +1352,7 @@ def plot_gaussian_mixture(clusterer, X, resolution=1000, show_ylabels=True):
         plt.tick_params(labelleft=False)
 
 
-# + id="hkV-wAQW-Xn-" outputId="cbe0ac2f-d0cc-4f88-d09a-3f6d095bdcb6"
+# + id="hkV-wAQW-Xn-" executionInfo={"status": "ok", "timestamp": 1603460213854, "user_tz": -540, "elapsed": 3489, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="7dfbfe24-69ba-4a3a-d9df-e6a3876819e8" colab={"base_uri": "https://localhost:8080/", "height": 316}
 plt.figure(figsize=(8, 4))
 
 plot_gaussian_mixture(gm, X)
@@ -1343,7 +1367,7 @@ plt.show()
 # * `"spherical"`: all clusters must be spherical, but they can have different diameters (i.e., different variances).
 # * `"diag"`: clusters can take on any ellipsoidal shape of any size, but the ellipsoid's axes must be parallel to the axes (i.e., the covariance matrices must be diagonal).
 
-# + id="2cv8LhUO-XoC" outputId="9cd7a1f0-1543-4f49-a227-e43909dd8590"
+# + id="2cv8LhUO-XoC" executionInfo={"status": "ok", "timestamp": 1603460259405, "user_tz": -540, "elapsed": 3503, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="9d616c96-992b-4927-93cf-6344f96d6257" colab={"base_uri": "https://localhost:8080/", "height": 111}
 gm_full = GaussianMixture(n_components=3, n_init=10, covariance_type="full", random_state=42)
 gm_tied = GaussianMixture(n_components=3, n_init=10, covariance_type="tied", random_state=42)
 gm_spherical = GaussianMixture(n_components=3, n_init=10, covariance_type="spherical", random_state=42)
@@ -1354,7 +1378,7 @@ gm_spherical.fit(X)
 gm_diag.fit(X)
 
 
-# + id="MDqqFNt7-XoG"
+# + id="MDqqFNt7-XoG" executionInfo={"status": "ok", "timestamp": 1603460259968, "user_tz": -540, "elapsed": 2330, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 def compare_gaussian_mixtures(gm1, gm2, X):
     plt.figure(figsize=(9, 4))
 
@@ -1368,13 +1392,13 @@ def compare_gaussian_mixtures(gm1, gm2, X):
 
 
 
-# + id="01azIZeC-XoI" outputId="7afe4ab2-90e7-49fd-afdd-465f3db54def"
+# + id="01azIZeC-XoI" executionInfo={"status": "ok", "timestamp": 1603460273293, "user_tz": -540, "elapsed": 4366, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="d52a4099-0e39-432d-f447-b51acac197a7" colab={"base_uri": "https://localhost:8080/", "height": 315}
 compare_gaussian_mixtures(gm_tied, gm_spherical, X)
 
 save_fig("covariance_type_plot")
 plt.show()
 
-# + id="ZU1j0LBq-XoL" outputId="67637e17-c596-4c72-fc6b-4647cbef7917"
+# + id="ZU1j0LBq-XoL" executionInfo={"status": "ok", "timestamp": 1603460276635, "user_tz": -540, "elapsed": 7319, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="2ab1195a-ed9d-4b32-9998-9ecfe0cf432c" colab={"base_uri": "https://localhost:8080/", "height": 297}
 compare_gaussian_mixtures(gm_full, gm_diag, X)
 plt.tight_layout()
 plt.show()
@@ -1385,12 +1409,15 @@ plt.show()
 # + [markdown] id="0BhQGYad-XoM"
 # Gaussian Mixtures can be used for _anomaly detection_: instances located in low-density regions can be considered anomalies. You must define what density threshold you want to use. For example, in a manufacturing company that tries to detect defective products, the ratio of defective products is usually well-known. Say it is equal to 4%, then you can set the density threshold to be the value that results in having 4% of the instances located in areas below that threshold density:
 
-# + id="XQIHurDZ-XoM"
+# + [markdown] id="t0f5JgTHrkCN"
+# 가우시안 믹스쳐에서 특정 threshold보다 낮은경우 anomaly 표시 
+
+# + id="XQIHurDZ-XoM" executionInfo={"status": "ok", "timestamp": 1603460306705, "user_tz": -540, "elapsed": 1157, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 densities = gm.score_samples(X)
 density_threshold = np.percentile(densities, 4)
 anomalies = X[densities < density_threshold]
 
-# + id="s7D8v3CL-XoN" outputId="afec4957-3c2e-4842-9071-b8c220cdb901"
+# + id="s7D8v3CL-XoN" executionInfo={"status": "ok", "timestamp": 1603460310141, "user_tz": -540, "elapsed": 4091, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="c965bdf6-5add-4fc1-abb0-7a9c0e7ce691" colab={"base_uri": "https://localhost:8080/", "height": 316}
 plt.figure(figsize=(8, 4))
 
 plot_gaussian_mixture(gm, X)
@@ -1399,6 +1426,9 @@ plt.ylim(top=5.1)
 
 save_fig("mixture_anomaly_detection_plot")
 plt.show()
+
+# + [markdown] id="RpD_y8laruSQ"
+# 모델 셀력션 그냥 안하고 넘어감 
 
 # + [markdown] id="iDhrb5Fy-XoT"
 # ## Model selection
@@ -1502,25 +1532,26 @@ best_covariance_type
 # + [markdown] id="3xEIvTom-XpG"
 # Rather than manually searching for the optimal number of clusters, it is possible to use instead the `BayesianGaussianMixture` class which is capable of giving weights equal (or close) to zero to unnecessary clusters. Just set the number of components to a value that you believe is greater than the optimal number of clusters, and the algorithm will eliminate the unnecessary clusters automatically.
 
-# + id="awKDkxAm-XpG"
+# + id="awKDkxAm-XpG" executionInfo={"status": "ok", "timestamp": 1603460342161, "user_tz": -540, "elapsed": 1087, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 from sklearn.mixture import BayesianGaussianMixture
 
-# + id="rf3WpD7P-XpH" outputId="14d8aaac-8bfd-41c6-f2fa-37b5b9a3eae1"
-bgm = BayesianGaussianMixture(n_components=10, n_init=10, random_state=42)
+# + id="rf3WpD7P-XpH" executionInfo={"status": "ok", "timestamp": 1603460346574, "user_tz": -540, "elapsed": 4639, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="d445884a-7243-45aa-a1f3-ac8a16c25d4c" colab={"base_uri": "https://localhost:8080/", "height": 224}
+bgm = BayesianGaussianMixture(n_components=10, n_init=10, random_state=42) #컴포넌트를 10으로 결정하면 알아서 k를 결정해줌 
 bgm.fit(X)
 
 # + [markdown] id="RVPNGtCa-XpI"
 # The algorithm automatically detected that only 3 components are needed:
 
-# + id="WIMJKluT-XpI" outputId="32f08607-79e5-4ce7-a043-0785d0e5edbd"
-np.round(bgm.weights_, 2)
+# + id="WIMJKluT-XpI" executionInfo={"status": "ok", "timestamp": 1603460346576, "user_tz": -540, "elapsed": 2706, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="994b9ffd-e2bb-494e-c7b1-3775ad34aa01" colab={"base_uri": "https://localhost:8080/", "height": 35}
+np.round(bgm.weights_, 2) #안쓰는건 0으로 봐꿔서 최종적으로는 k=3개만 남게됨. 
 
-# + id="8zLX38Jk-XpJ" outputId="10170b2d-1870-4ec4-f9e9-ebb503f75cde"
+# + id="8zLX38Jk-XpJ" executionInfo={"status": "ok", "timestamp": 1603460396203, "user_tz": -540, "elapsed": 3961, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="1cf12d50-d7c6-460f-a02d-587f18874cd2" colab={"base_uri": "https://localhost:8080/", "height": 343}
 plt.figure(figsize=(8, 5))
 plot_gaussian_mixture(bgm, X)
 plt.show()
 
-# + id="d2E5asCl-XpK" outputId="36ad7ddc-1611-4bb5-8a6a-da89749440e9"
+# + id="d2E5asCl-XpK" executionInfo={"status": "ok", "timestamp": 1603460434811, "user_tz": -540, "elapsed": 1902, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="f085f0a7-6b06-4f1f-8e09-f6bded809b7f" colab={"base_uri": "https://localhost:8080/", "height": 161}
+#bayesian은 prior에 따라서 모형이 변화한다. 
 bgm_low = BayesianGaussianMixture(n_components=10, max_iter=1000, n_init=1,
                                   weight_concentration_prior=0.01, random_state=42)
 bgm_high = BayesianGaussianMixture(n_components=10, max_iter=1000, n_init=1,
@@ -1529,13 +1560,13 @@ nn = 73
 bgm_low.fit(X[:nn])
 bgm_high.fit(X[:nn])
 
-# + id="8TtMx5Mb-XpM" outputId="c9bf9b7a-5042-48bb-dc8e-5a9a0ebfab9a"
+# + id="8TtMx5Mb-XpM" executionInfo={"status": "ok", "timestamp": 1603460434812, "user_tz": -540, "elapsed": 1439, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="05ed851e-a55d-4064-f243-696e34b813ca" colab={"base_uri": "https://localhost:8080/", "height": 36}
 np.round(bgm_low.weights_, 2)
 
-# + id="7pOo9deY-XpN" outputId="7a9510de-1256-4b0d-f854-9b5db3a710a5"
+# + id="7pOo9deY-XpN" executionInfo={"status": "ok", "timestamp": 1603460434823, "user_tz": -540, "elapsed": 1211, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="9b738651-2734-48f7-af71-20ff9ac2f7ab" colab={"base_uri": "https://localhost:8080/", "height": 36}
 np.round(bgm_high.weights_, 2)
 
-# + id="iOt8v4lz-XpO" outputId="ed9e2e14-189a-4d4f-f3b2-14a3f7515bfb"
+# + id="iOt8v4lz-XpO" executionInfo={"status": "ok", "timestamp": 1603460444227, "user_tz": -540, "elapsed": 8749, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="1cba5fe4-ac5c-428a-9386-d0ff245c7aef" colab={"base_uri": "https://localhost:8080/", "height": 316}
 plt.figure(figsize=(9, 4))
 
 plt.subplot(121)
@@ -1552,14 +1583,14 @@ plt.show()
 # + [markdown] id="NMFXrlXB-XpQ"
 # Note: the fact that you see only 3 regions in the right plot although there are 4 centroids is not a bug. The weight of the top-right cluster is much larger than the weight of the lower-right cluster, so the probability that any given point in this region belongs to the top right cluster is greater than the probability that it belongs to the lower-right cluster.
 
-# + id="rV8zoyUV-XpQ"
+# + id="rV8zoyUV-XpQ" executionInfo={"status": "ok", "timestamp": 1603460444974, "user_tz": -540, "elapsed": 1203, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}}
 X_moons, y_moons = make_moons(n_samples=1000, noise=0.05, random_state=42)
 
-# + id="omkep1zE-XpR" outputId="658bd805-f9b3-4be1-f365-dc7111b19373"
+# + id="omkep1zE-XpR" executionInfo={"status": "ok", "timestamp": 1603460448123, "user_tz": -540, "elapsed": 4100, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="8fb6b639-7f11-4445-a933-ebd0289749c0" colab={"base_uri": "https://localhost:8080/", "height": 167}
 bgm = BayesianGaussianMixture(n_components=10, n_init=10, random_state=42)
 bgm.fit(X_moons)
 
-# + id="QMeKHvkj-XpV" outputId="c4f8263f-1cfd-4c2b-f89c-d21f10aa0ee9"
+# + id="QMeKHvkj-XpV" executionInfo={"status": "ok", "timestamp": 1603460451922, "user_tz": -540, "elapsed": 5414, "user": {"displayName": "docls vlc", "photoUrl": "", "userId": "07004006891778094139"}} outputId="bad02455-e037-4638-e71a-3bcdac4a414c" colab={"base_uri": "https://localhost:8080/", "height": 259}
 plt.figure(figsize=(9, 3.2))
 
 plt.subplot(121)
@@ -1572,6 +1603,7 @@ plot_gaussian_mixture(bgm, X_moons, show_ylabels=False)
 
 save_fig("moons_vs_bgm_plot")
 plt.show()
+##이 데이터는 가우시안이랑 모양이 많이 다르기 때문에, 적용하면 이상하게 분류가 된다. 
 
 # + [markdown] id="v1s8nRrQ-XpW"
 # Oops, not great... instead of detecting 2 moon-shaped clusters, the algorithm detected 8 ellipsoidal clusters. However, the density plot does not look too bad, so it might be usable for anomaly detection.
